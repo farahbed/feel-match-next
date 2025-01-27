@@ -4,6 +4,8 @@ import React from "react";
 import { Card, CardContent, Button } from "@mui/material";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Header from "../Header";
+import Footer from "../Footer";
 
 const styles = {
   sitePresentation: {
@@ -79,25 +81,10 @@ const SpeedDatingHomePage = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
       {/* Header */}
-      <header style={styles.header}>
-        <h1 style={styles.headerText}>Speed Dating Élégant</h1>
-        <p className="text-lg mt-2 text-red-200">Des rencontres sur mesure dans une ambiance raffinée</p>
-      </header>
+      <Header />
 
       {/* Main Section */}
       <main className="flex flex-col items-center gap-8 mt-12">
-        <Card sx={{ width: "80%", backgroundColor: "#000", border: "1px solid #a18721" }}>
-          <CardContent>
-            <h2 style={{ color: "#a18721", fontWeight: "bold" }}>Trouver l'amour avec style</h2>
-            <p style={{ marginTop: "16px", color: "#e57373" }}>
-              Remplissez notre formulaire détaillé et laissez-nous organiser une rencontre parfaite pour vous.
-            </p>
-            <Button variant="contained" sx={{ marginTop: "16px", backgroundColor: "#a18721", color: "#000" }}>
-              Commencez Maintenant
-            </Button>
-          </CardContent>
-        </Card>
-
         {/* Site Presentation */}
         <section style={styles.sitePresentation} data-aos="fade-up">
           <h2 style={styles.title}>
@@ -131,7 +118,23 @@ const SpeedDatingHomePage = () => {
             )}
           </div>
         </section>
+
+        {/* Card Section */}
+        <Card sx={{ width: "80%", backgroundColor: "#000", border: "1px solid #a18721" }}>
+          <CardContent>
+            <h2 style={{ color: "#a18721", fontWeight: "bold" }}>Trouver l'amour avec style</h2>
+            <p style={{ marginTop: "16px", color: "#e57373" }}>
+              Remplissez notre formulaire détaillé et laissez-nous organiser une rencontre parfaite pour vous.
+            </p>
+            <Button variant="contained" sx={{ marginTop: "16px", backgroundColor: "#a18721", color: "#000" }}>
+              Commencez Maintenant
+            </Button>
+          </CardContent>
+        </Card>
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
