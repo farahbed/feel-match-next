@@ -12,9 +12,7 @@ export default function Home() {
       <Header />
       <main>
         <SpeedDatingHomePage/>
-        <SitePresentation />
         <UpcomingEvent />
-        <Pricing />
       </main>
       <Footer />
     </>
