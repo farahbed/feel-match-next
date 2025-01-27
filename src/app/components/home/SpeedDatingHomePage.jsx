@@ -55,6 +55,20 @@ const styles = {
     transform: "scale(1.05)",
     boxShadow: "0 6px 10px rgba(0, 0, 0, 0.2)",
   },
+  header: {
+    background: "linear-gradient(to right, #000, #800000, #FFD700)",
+    textAlign: "center",
+    padding: "6rem 0",
+    color: "#FFF",
+    animation: "fadeIn 2s ease-out",
+  },
+  headerText: {
+    fontSize: "4rem",
+    fontWeight: "bold",
+    letterSpacing: "2px",
+    textTransform: "uppercase",
+    animation: "slideUp 1.5s ease-out",
+  },
 };
 
 const SpeedDatingHomePage = () => {
@@ -65,8 +79,8 @@ const SpeedDatingHomePage = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
       {/* Header */}
-      <header className="w-full bg-gradient-to-r from-black via-red-800 to-gold-700 text-center py-6">
-        <h1 className="text-4xl font-bold text-gold-500">Speed Dating Élégant</h1>
+      <header style={styles.header}>
+        <h1 style={styles.headerText}>Speed Dating Élégant</h1>
         <p className="text-lg mt-2 text-red-200">Des rencontres sur mesure dans une ambiance raffinée</p>
       </header>
 
@@ -109,6 +123,9 @@ const SpeedDatingHomePage = () => {
                     e.target.style.transform = "scale(1)";
                     e.target.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
                   }}
+                  data-aos="fade-up"
+                  data-aos-duration="1500"
+                  data-aos-delay={`${index * 100}`}
                 />
               )
             )}
