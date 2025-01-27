@@ -34,6 +34,9 @@ function Header() {
           <li><a href="#about">À Propos</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
+        <div className="cta-button">
+          <a href="#speed-dating" className="button-cta">Commencez Maintenant</a>
+        </div>
       </header>
 
       <style jsx>{`
@@ -130,6 +133,24 @@ function Header() {
           border-radius: 0.5rem;
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
           gap: 0.6rem;
+        }
+
+        .cta-button {
+          margin-left: auto;
+        }
+
+        .button-cta {
+          background-color: var(--color-highlight);
+          color: var(--color-bg);
+          padding: 0.6rem 1.2rem;
+          border-radius: 0.3rem;
+          text-decoration: none;
+          font-weight: bold;
+          transition: background-color 0.3s;
+        }
+
+        .button-cta:hover {
+          background-color: var(--color-accent);
         }
 
         @media (max-width: 768px) {
