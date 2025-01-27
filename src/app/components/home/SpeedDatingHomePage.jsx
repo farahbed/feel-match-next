@@ -2,6 +2,8 @@
 
 import React from "react";
 import { Card, CardContent, Button } from "@mui/material";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const styles = {
   sitePresentation: {
@@ -56,6 +58,10 @@ const styles = {
 };
 
 const SpeedDatingHomePage = () => {
+  React.useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center">
       {/* Header */}
@@ -79,7 +85,7 @@ const SpeedDatingHomePage = () => {
         </Card>
 
         {/* Site Presentation */}
-        <section style={styles.sitePresentation}>
+        <section style={styles.sitePresentation} data-aos="fade-up">
           <h2 style={styles.title}>
             Feel <span style={styles.highlight}>&</span> Match
           </h2>
@@ -96,12 +102,12 @@ const SpeedDatingHomePage = () => {
                   alt={`Couple ${index + 1}`}
                   style={styles.img}
                   onMouseOver={(e) => {
-                    e.target.style.transform = styles.imgHover.transform;
-                    e.target.style.boxShadow = styles.imgHover.boxShadow;
+                    e.target.style.transform = "scale(1.05)";
+                    e.target.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.2)";
                   }}
                   onMouseOut={(e) => {
                     e.target.style.transform = "scale(1)";
-                    e.target.style.boxShadow = styles.img.boxShadow;
+                    e.target.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
                   }}
                 />
               )
