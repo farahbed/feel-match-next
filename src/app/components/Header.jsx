@@ -1,4 +1,3 @@
-// components/Header.js
 'use client';
 
 import React, { useState } from 'react';
@@ -15,7 +14,11 @@ function Header() {
     <>
       <header className="header">
         <div className="logo">
-          <img src="/images/Img2.webp" alt="Feel & Match Logo" className="logo-img" />
+          <img
+            src="/images/Img2.webp"
+            alt="Feel & Match Logo"
+            className="logo-img"
+          />
         </div>
         <div
           className={`menu-icon ${isMenuOpen ? 'open' : ''}`}
@@ -78,14 +81,15 @@ function Header() {
         }
 
         .logo-img:hover {
-          transform: scale(1.1);
+          transform: scale(1.1) rotate(10deg);
         }
 
         .nav-links {
           list-style: none;
           display: flex;
           gap: 1.5rem;
-          transition: transform 0.3s ease-in-out;
+          transition: opacity 0.5s ease, transform 0.5s ease;
+          opacity: 1;
         }
 
         .nav-links li {
@@ -98,11 +102,27 @@ function Header() {
           font-size: 1rem;
           font-weight: 500;
           font-family: 'Alumni Sans Pinstripe', sans-serif;
+          position: relative;
           transition: color 0.3s;
         }
 
         .nav-links a:hover {
           color: var(--color-highlight);
+        }
+
+        .nav-links a::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          background-color: var(--color-highlight);
+          bottom: -2px;
+          left: 0;
+          transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+          width: 100%;
         }
 
         .menu-icon {
@@ -143,6 +163,9 @@ function Header() {
           border-radius: 0.5rem;
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
           gap: 0.6rem;
+          opacity: 0;
+          transform: translateY(-20px);
+          animation: slideDown 0.5s forwards ease-out;
         }
 
         .cta-button {
@@ -156,11 +179,12 @@ function Header() {
           border-radius: 0.3rem;
           text-decoration: none;
           font-weight: bold;
-          transition: background-color 0.3s;
+          transition: background-color 0.3s, transform 0.3s;
         }
 
         .button-cta:hover {
           background-color: var(--color-accent);
+          transform: translateY(-3px);
         }
 
         @media (max-width: 768px) {
@@ -178,6 +202,17 @@ function Header() {
         }
 
         @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideDown {
           from {
             opacity: 0;
             transform: translateY(-20px);
