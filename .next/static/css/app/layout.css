@@ -1,0 +1,83 @@
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/app/styles/globals.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Définir les couleurs de base */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --color-highlight: #a18721; /* Doré */
+  --color-text: #333333; /* Texte noir */
+  --color-upcoming-bg: #f8f8f8; /* Arrière-plan clair des événements */
+  --color-red-dark: #500808; /* Rouge foncé */
+}
+
+/* Mode sombre */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --color-highlight: #a18721;
+    --color-text: #ededed;
+    --color-upcoming-bg: #2a2a2a;
+    --color-red-dark: #500808;
+  }
+}
+
+/* Importation des nouvelles polices */
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Pinyon+Script&family=Alumni+Sans+Pinstripe:ital,wght@1,400&family=Red+Hat+Text:wght@400;500&display=swap');
+
+/* Polices personnalisées */
+.tangerine-title {
+  font-family: 'Tangerine', cursive;
+  font-weight: 700;
+}
+
+.pinyon-title {
+  font-family: 'Pinyon Script', cursive;
+  font-weight: 400;
+}
+
+.alumni-italic {
+  font-family: 'Alumni Sans Pinstripe', sans-serif;
+  font-style: italic;
+}
+
+.red-hat-text {
+  font-family: 'Red Hat Text', sans-serif;
+}
+
+/* Application globale */
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Red Hat Text', sans-serif;
+  font-size: 1rem;
+}
+
+/* Titres et première lettre des textes */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Tangerine', cursive; /* Utiliser Tangerine par défaut */
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+p:first-letter {
+  font-family: 'Pinyon Script', cursive; /* Première lettre en Pinyon Script */
+  font-size: 2.5rem;
+}
+
+/* Phrases courtes */
+.short-text {
+  font-family: 'Alumni Sans Pinstripe', sans-serif;
+  font-style: italic;
+}
+
+/* Autres sections */
+.header, .pricing {
+  font-family: 'Tangerine', cursive;
+}
+

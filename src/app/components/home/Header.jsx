@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,12 +31,20 @@ function Header() {
           <span className="menu-bar"></span>
         </div>
         <ul className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-          <li><a href="#home">Accueil</a></li>
-          <li><a href="#about">À Propos</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li>
+            <Link href="#home">Accueil</Link>
+          </li>
+          <li>
+            <Link href="#about">À Propos</Link>
+          </li>
+          <li>
+            <Link href="#contact">Contact</Link>
+          </li>
         </ul>
         <div className="cta-button">
-          <a href="#speed-dating" className="button-cta">Commencez Maintenant</a>
+          <Link href="/speed-dating" className="button-cta">
+            Commencez Maintenant
+          </Link>
         </div>
       </header>
 
