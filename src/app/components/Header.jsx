@@ -67,29 +67,20 @@ function Header() {
           align-items: center;
           background-color: var(--color-bg);
           padding: 1rem 1.5rem;
-          position: sticky;
           top: 0;
           z-index: 1000;
-          animation: fadeIn 1s ease-in-out;
         }
 
         .logo-img {
           max-height: 100px;
           border-radius: 50%;
           object-fit: cover;
-          transition: transform 0.3s ease-in-out;
-        }
-
-        .logo-img:hover {
-          transform: scale(1.1) rotate(10deg);
         }
 
         .nav-links {
           list-style: none;
           display: flex;
           gap: 1.5rem;
-          transition: opacity 0.5s ease, transform 0.5s ease;
-          opacity: 1;
         }
 
         .nav-links li {
@@ -98,7 +89,7 @@ function Header() {
 
         .nav-links a {
           text-decoration: none;
-          color: var(--color-text);
+          color: gold; /* Onglets dorés tout le temps */
           font-size: 1rem;
           font-weight: 500;
           font-family: 'Alumni Sans Pinstripe', sans-serif;
@@ -107,7 +98,7 @@ function Header() {
         }
 
         .nav-links a:hover {
-          color: var(--color-highlight);
+          color: red; /* Onglets rouges au survol */
         }
 
         .nav-links a::after {
@@ -115,7 +106,7 @@ function Header() {
           position: absolute;
           width: 0;
           height: 2px;
-          background-color: var(--color-highlight);
+          background-color: gold;
           bottom: -2px;
           left: 0;
           transition: width 0.3s;
@@ -135,8 +126,7 @@ function Header() {
         .menu-icon .menu-bar {
           width: 1.5rem;
           height: 0.2rem;
-          background-color: var(--color-highlight);
-          transition: all 0.3s;
+          background-color: gold; /* Onglet doré */
         }
 
         .menu-icon.open .menu-bar:nth-child(1) {
@@ -163,9 +153,6 @@ function Header() {
           border-radius: 0.5rem;
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
           gap: 0.6rem;
-          opacity: 0;
-          transform: translateY(-20px);
-          animation: slideDown 0.5s forwards ease-out;
         }
 
         .cta-button {
@@ -179,12 +166,10 @@ function Header() {
           border-radius: 0.3rem;
           text-decoration: none;
           font-weight: bold;
-          transition: background-color 0.3s, transform 0.3s;
         }
 
         .button-cta:hover {
           background-color: var(--color-accent);
-          transform: translateY(-3px);
         }
 
         @media (max-width: 768px) {
@@ -198,28 +183,6 @@ function Header() {
 
           .nav-links.open {
             display: flex;
-          }
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
           }
         }
       `}</style>
