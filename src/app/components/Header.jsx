@@ -90,7 +90,7 @@ function Header() {
         .nav-links a {
           text-decoration: none;
           color: gold; /* Onglets dorés tout le temps */
-          font-size: 1rem;
+          font-size: 20px;
           font-weight: 500;
           font-family: 'Alumni Sans Pinstripe', sans-serif;
           position: relative;

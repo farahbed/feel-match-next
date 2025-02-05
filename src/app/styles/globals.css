@@ -77,3 +77,12 @@ p:first-letter {
 .header, .pricing {
   font-family: 'Tangerine', cursive;
 }
+/* S'assurer que les liens sont dorés et rouges au survol */
+a {
+  color: var(--color-highlight) !important; /* Liens dorés */
+  text-decoration: none; /* Supprime le soulignement */
+}
+
+a:hover {
+  color: var(--color-red-dark) !important; /* Liens rouges au survol */
+}
