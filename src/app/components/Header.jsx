@@ -15,7 +15,7 @@ function Header() {
       <header className="header">
         <div className="logo">
           <img
-            src="/images/Img2.webp"
+            src="/images/Img2.png"
             alt="Feel & Match Logo"
             className="logo-img"
           />
