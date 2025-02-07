@@ -1,38 +1,35 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // Pour la redirection
+import { useRouter } from "next/navigation";
 
 const VideoPage = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    // Simule un chargement de 2 secondes, tu peux le remplacer par un vrai chargement si besoin
+    // Attendre la durée de la vidéo avant d'afficher le bouton
     setTimeout(() => {
       setLoading(false);
-    }, 2000); // Remplacer ce délai par un chargement réel si nécessaire
+    }, 5000); // Ajuste ce temps selon la durée de ta vidéo
   }, []);
 
-  // Fonction de redirection vers SpeedDatingHomePage
   const handleEnterSite = () => {
-    router.push('/speed-dating-home'); // Redirection vers la page SpeedDatingHomePage
+    router.push("/speed-dating-home");
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-black flex flex-col justify-center items-center">
       {loading ? (
-        <div className="loader">Chargement...</div> // Message de chargement ou animation vidéo
+        // Affichage de la vidéo pendant le "chargement"
+        <video
+          src="/LoaderVideo.mp4" // Le fichier dans /public
+          autoPlay
+          muted
+          className="w-full h-auto"
+        />
       ) : (
-        <div>
-          {/* Contenu de la VideoPage une fois le chargement terminé */}
-          <video
-            src="/path/to/your/video.mp4" // Remplace avec ton propre fichier vidéo
-            autoPlay
-            loop
-            muted
-            className="w-full h-auto"
-          ></video>
+        <div className="text-center">
           <button
             onClick={handleEnterSite}
             className="mt-8 px-6 py-3 bg-gold text-black font-bold"
@@ -46,4 +43,3 @@ const VideoPage = () => {
 };
 
 export default VideoPage;
-
