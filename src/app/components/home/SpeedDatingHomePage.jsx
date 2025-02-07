@@ -5,19 +5,26 @@ import { Card, CardContent, Button } from "@mui/material";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import ImageSlider from "./ImageSlider";
-import VideoLoader from "../home/Loader";
+import { useRouter } from "next/navigation"; // Ajout de useRouter
 
 const SpeedDatingHomePage = () => {
   const [loading, setLoading] = useState(true);
+  const router = useRouter(); // Initialisation de useRouter
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
+  // Fonction pour gérer le clic sur le bouton
+  const handleEnterSite = () => {
+    router.push('/speed-dating-home'); // Redirige vers la page SpeedDatingHomePage
+  };
+
   return (
     <>
       {loading ? (
-        <VideoLoader onFinish={() => setLoading(false)} />
+        // Tu peux ajouter un autre loader ici si tu veux
+        <div className="loader">Chargement...</div>
       ) : (
         <div className="min-h-screen bg-black text-white flex flex-col items-center">
           <main className="flex flex-col items-center gap-8 mt-12">
@@ -65,11 +72,14 @@ const SpeedDatingHomePage = () => {
                   <p className="mt-4 text-red-light">
                     Remplissez notre formulaire détaillé et laissez-nous organiser une rencontre parfaite pour vous.
                   </p>
-                  <Button variant="contained" sx={{ mt: 2, backgroundColor: "#a18721", color: "#000" }} data-aos="fade-up" data-aos-delay="500">
-                    Blind Date
-                  </Button>
-                  <Button variant="contained" sx={{ mt: 2, backgroundColor: "#a18721", color: "#000" }} data-aos="fade-up" data-aos-delay="500">
-                    Speed Dating
+                  <Button
+                    variant="contained"
+                    sx={{ mt: 2, backgroundColor: "#a18721", color: "#000" }}
+                    data-aos="fade-up"
+                    data-aos-delay="500"
+                    onClick={handleEnterSite} // Appel de la fonction de redirection
+                  >
+                    Entrer sur le site
                   </Button>
                 </CardContent>
               </Card>
