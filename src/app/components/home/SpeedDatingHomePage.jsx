@@ -13,18 +13,18 @@ const SpeedDatingHomePage = () => {
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
+    setLoading(false);
   }, []);
 
-  // Fonction pour gérer le clic sur le bouton
+  // Function to handle button click
   const handleEnterSite = () => {
-    router.push('/speed-dating-home'); // Redirige vers la page SpeedDatingHomePage
+    router.push('/speed-dating-home'); // Redirects to the SpeedDatingHomePage
   };
 
   return (
     <>
       {loading ? (
-        // Tu peux ajouter un autre loader ici si tu veux
-        <div className="loader">Chargement...</div>
+        <div className="loader">Chargement... Veuillez patienter.</div>
       ) : (
         <div className="min-h-screen bg-black text-white flex flex-col items-center">
           <main className="flex flex-col items-center gap-8 mt-12">
@@ -39,8 +39,8 @@ const SpeedDatingHomePage = () => {
 
             <ImageSlider />
 
-            {/* Nouvelle section ajoutée */}
-            <section className="text-center py-16 max-w-2xl mx-auto">
+            <section className="text-center py-16" data-aos="fade-up">
+              {/* New section added */}
               <h2 className="text-gold font-bold">BLIND DATE</h2>
               <p className="mt-4 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="200">
                 Imaginez un rendez-vous où tout est organisé pour vous...
@@ -77,7 +77,7 @@ const SpeedDatingHomePage = () => {
                     sx={{ mt: 2, backgroundColor: "#a18721", color: "#000" }}
                     data-aos="fade-up"
                     data-aos-delay="500"
-                    onClick={handleEnterSite} // Appel de la fonction de redirection
+                    onClick={handleEnterSite} // Call the redirection function
                   >
                     Entrer sur le site
                   </Button>
