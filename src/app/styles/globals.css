@@ -50,12 +50,52 @@
 }
 
 /* Application globale */
-body {
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   color: var(--foreground);
   background: var(--background);
   font-family: 'Red Hat Text', sans-serif;
   font-size: 1rem;
 }
+video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+button {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Ajout dans globals.css ou ton fichier CSS spécifique */
+
+.bg-gold {
+  background-color: #a18721; /* Couleur dorée */
+}
+
+.text-gold {
+  color: #a18721; /* Couleur dorée pour le texte */
+}
+
+.border-gold {
+  border-color: #a18721; /* Bordure dorée */
+}
+
+button {
+  /* Effet de survol */
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: transparent; /* Fond transparent au survol */
+  color: #a18721; /* Texte doré au survol */
+  border-color: #a18721; /* Bordure dorée au survol */
+}
+
 
 /* Titres et première lettre des textes */
 h1, h2, h3, h4, h5, h6 {

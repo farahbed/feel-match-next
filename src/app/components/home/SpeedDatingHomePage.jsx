@@ -24,10 +24,11 @@ const SpeedDatingHomePage = () => {
   return (
     <>
       {loading ? (
-        <div className="loader">Chargement... Veuillez patienter.</div>
+        <div className="loader text-center">Chargement... Veuillez patienter.</div>
       ) : (
-        <div className="min-h-screen bg-black text-white flex flex-col items-center">
-          <main className="flex flex-col items-center gap-8 mt-12">
+        <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
+          <main className="flex flex-col items-center justify-center gap-8 mt-12">
+            {/* Titre et description */}
             <section className="text-center py-16" data-aos="fade-up">
               <h2 className="text-[3.5rem] text-gold font-cursive" data-aos="fade-down">
                 Feel <span className="text-red-dark">&</span> Match
@@ -37,10 +38,13 @@ const SpeedDatingHomePage = () => {
               </p>
             </section>
 
-            <ImageSlider />
+            {/* Image Slider */}
+            <div className="w-full flex justify-center">
+              <ImageSlider />
+            </div>
 
+            {/* Sections de Blind Date et Speed Dating */}
             <section className="text-center py-16" data-aos="fade-up">
-              {/* New section added */}
               <h2 className="text-gold font-bold">BLIND DATE</h2>
               <p className="mt-4 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="200">
                 Imaginez un rendez-vous où tout est organisé pour vous...
@@ -64,7 +68,7 @@ const SpeedDatingHomePage = () => {
               </p>
             </section>
 
-            {/* Card Section */}
+            {/* Section Card */}
             <section className="flex justify-center w-full mt-12" data-aos="zoom-in">
               <Card sx={{ width: "80%", backgroundColor: "#000", border: "1px solid #a18721" }}>
                 <CardContent className="text-center">

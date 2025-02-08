@@ -5,7 +5,11 @@ module.exports = {
     "./app/**/*.{js,jsx,ts,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gold: "#c2a661", // Ajout de la couleur dorée
+      },
+    },
   },
   plugins: [],
 };
