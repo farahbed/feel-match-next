@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,45 +15,33 @@ const ImageSlider = () => {
 
   const settings = {
     infinite: true,
-    speed: 5000, // Vitesse plus lente pour un effet fluide
+    speed: 5000,
     slidesToShow: 4,
     autoplay: true,
-    autoplaySpeed: 0, // Pas de pause entre les slides
-    cssEase: "linear", // Déplacement fluide
+    autoplaySpeed: 1000,
+    cssEase: "linear",
     centerMode: true,
-    variableWidth: true, // Permet un enchaînement sans espace noir
-    arrows: false, // Suppression des flèches
-    pauseOnHover: false, // Évite les interruptions au survol
+    variableWidth: true,
+    arrows: false,
+    pauseOnHover: false,
     responsive: [
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
     ],
   };
 
   return (
     <div className="w-full py-4">
       <Slider {...settings}>
-        {images.concat(images).map((src, index) => ( // Duplication pour assurer la boucle continue
+        {images.concat(images).map((src, index) => (
           <div key={index} className="flex justify-center">
-            <img
+            <Image
               src={src}
               alt={`Image ${index + 1}`}
+              width={300}
+              height={200}
               className="rounded-md shadow-sm"
-              style={{
-                width: "300px",
-                height: "200px",
-                objectFit: "cover",
-              }}
+              style={{ objectFit: "cover" }}
             />
           </div>
         ))}

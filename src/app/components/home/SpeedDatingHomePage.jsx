@@ -1,97 +1,52 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { Card, CardContent, Button } from "@mui/material";
+import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useRouter } from "next/navigation";
 import ImageSlider from "./ImageSlider";
-import { useRouter } from "next/navigation"; // Ajout de useRouter
+import CallToActionSection from "./CallToActionSection";
+import OptionEvent from "./OptionEvent";
 
 const SpeedDatingHomePage = () => {
-  const [loading, setLoading] = useState(true);
-  const router = useRouter(); // Initialisation de useRouter
+  const router = useRouter();
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
-    setLoading(false);
+    AOS.init();
   }, []);
 
-  // Function to handle button click
   const handleEnterSite = () => {
-    router.push('/speed-dating-home'); // Redirects to the SpeedDatingHomePage
+    router.push("/speed-dating-home");
   };
 
   return (
-    <>
-      {loading ? (
-        <div className="loader text-center">Chargement... Veuillez patienter.</div>
-      ) : (
-        <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center">
-          <main className="flex flex-col items-center justify-center gap-8 mt-12">
-            {/* Titre et description */}
-            <section className="text-center py-16" data-aos="fade-up">
-              <h2 className="text-[3.5rem] text-gold font-cursive" data-aos="fade-down">
-                Feel <span className="text-red-dark">&</span> Match
-              </h2>
-              <p className="text-[1.8rem] font-sans text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
-                Votre site de rencontre spécialisé dans les speed dating innovants...
-              </p>
-            </section>
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center text-center px-4">
+      <main className="flex flex-col items-center justify-center gap-12 w-full max-w-4xl mx-auto">
+        {/* Titre principal */}
+        <section className="w-full py-16">
+          <h2 className="text-[3.5rem] text-gold font-cursive leading-tight">
+            Feel <span className="text-red-dark">&</span> Match
+          </h2>
+          <p className="text-[1.5rem] font-sans text-gray-300 max-w-2xl mx-auto">
+            Une expérience unique ! <br />
+            Marre des rendez-vous qui manquent de piment ? <br />
+            Marre des applications de rencontre ? <br />
+            Découvrez notre concept innovant qui révolutionne les rencontres.
+          </p>
+        </section>
 
-            {/* Image Slider */}
-            <div className="w-full flex justify-center">
-              <ImageSlider />
-            </div>
-
-            {/* Sections de Blind Date et Speed Dating */}
-            <section className="text-center py-16" data-aos="fade-up">
-              <h2 className="text-gold font-bold">BLIND DATE</h2>
-              <p className="mt-4 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-                Imaginez un rendez-vous où tout est organisé pour vous...
-              </p>
-              <p className="mt-3 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="400">
-                Un moment unique où le hasard est maîtrisé...
-              </p>
-              <p className="mt-3 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="600">
-                Une rencontre où vous laissez la magie opérer.
-              </p>
-
-              <h2 className="text-gold font-bold mt-10">SPEED DATING</h2>
-              <p className="mt-4 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="200">
-                Dix minutes pour capter une énergie...
-              </p>
-              <p className="mt-3 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="400">
-                Un enchaînement de rencontres ciblées, rapides et efficaces.
-              </p>
-              <p className="mt-3 text-red-light leading-relaxed" data-aos="fade-up" data-aos-delay="600">
-                Quelques instants pour séduire, quelques secondes pour décider.
-              </p>
-            </section>
-
-            {/* Section Card */}
-            <section className="flex justify-center w-full mt-12" data-aos="zoom-in">
-              <Card sx={{ width: "80%", backgroundColor: "#000", border: "1px solid #a18721" }}>
-                <CardContent className="text-center">
-                  <h2 className="text-gold font-bold">Trouver l'amour avec style</h2>
-                  <p className="mt-4 text-red-light">
-                    Remplissez notre formulaire détaillé et laissez-nous organiser une rencontre parfaite pour vous.
-                  </p>
-                  <Button
-                    variant="contained"
-                    sx={{ mt: 2, backgroundColor: "#a18721", color: "#000" }}
-                    data-aos="fade-up"
-                    data-aos-delay="500"
-                    onClick={handleEnterSite} // Call the redirection function
-                  >
-                    Entrer sur le site
-                  </Button>
-                </CardContent>
-              </Card>
-            </section>
-          </main>
+        {/* Image Slider */}
+        <div className="w-full flex justify-center">
+          <ImageSlider />
         </div>
-      )}
-    </>
+
+        {/* Option Event : Blind Date / Speed Dating */}
+        <OptionEvent />
+
+        {/* Call to Action */}
+        <div className="w-full flex justify-center">
+          <CallToActionSection onButtonClick={handleEnterSite} />
+        </div>
+      </main>
+    </div>
   );
 };
 

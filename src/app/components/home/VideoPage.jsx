@@ -17,15 +17,20 @@ const VideoPage = ({ onEnterClick }) => {
         Votre navigateur ne supporte pas la vidéo.
       </video>
 
-      {/* Bouton centré sur l'écran */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-            <button
-        onClick={onEnterClick} // Appel de la fonction pour changer l'état
-        className="px-6 py-3 bg-gold text-black font-bold rounded-lg text-lg border-2 border-gold hover:bg-transparent hover:text-gold hover:border-gold transition-all"
+      {/* Contenu en bas de la page */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 text-center pb-8">
+        <h1 className="text-white text-5xl font-bold">
+          Bienvenue sur notre site de rencontre
+        </h1>
+        <p className="text-white text-lg mt-4">
+          Cliquez sur le bouton pour entrer
+        </p>
+        <button
+          onClick={onEnterClick} // Appel de la fonction pour changer l'état
+          className="video-page-button px-6 py-3 bg-gold text-black font-bold rounded-lg text-lg border-2 border-gold hover:bg-transparent hover:text-gold hover:border-gold transition-all"
         >
-        Entrer
+          Entrer
         </button>
-
       </div>
     </div>
   );

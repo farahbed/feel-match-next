@@ -3,33 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* Définir les couleurs de base */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --color-highlight: #a18721; /* Doré */
-  --color-text: #333333; /* Texte noir */
-  --color-upcoming-bg: #f8f8f8; /* Arrière-plan clair des événements */
-  --color-red-dark: #500808; /* Rouge foncé */
-}
-
-/* Mode sombre */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --color-highlight: #a18721;
-    --color-text: #ededed;
-    --color-upcoming-bg: #2a2a2a;
-    --color-red-dark: #500808;
-  }
-}
-
-/* Importation des nouvelles polices */
+/* Importation des nouvelles polices depuis Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Pinyon+Script&family=Alumni+Sans+Pinstripe:ital,wght@1,400&family=Red+Hat+Text:wght@400;500&display=swap');
 
-/* Polices personnalisées */
+/* Définition des couleurs globales utilisées dans le projet */
+:root {
+  --background: #171717;  /* Couleur de fond sombre */
+  --foreground: #f8f8f8;  /* Couleur du texte clair */
+  --color-highlight: #a18721;  /* Couleur dorée */
+  --color-red-dark: #500808;  /* Couleur rouge sombre */
+}
+
+/* Application des polices personnalisées */
 .tangerine-title {
   font-family: 'Tangerine', cursive;
   font-weight: 700;
@@ -49,7 +34,7 @@
   font-family: 'Red Hat Text', sans-serif;
 }
 
-/* Application globale */
+/* Application globale du style pour la page entière */
 html, body {
   margin: 0;
   padding: 0;
@@ -58,21 +43,76 @@ html, body {
   background: var(--background);
   font-family: 'Red Hat Text', sans-serif;
   font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
+
+.min-h-screen {
+  min-height: 100vh;  /* Utilisé pour garantir que l'écran prenne toute la hauteur */
+}
+
 video {
-  width: 100vw;
-  height: 100vh;
+  width: 90vw;
+  height: 90vh;
   object-fit: cover;
 }
 
+/* Style global des boutons */
 button {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
 }
-/* Ajout dans globals.css ou ton fichier CSS spécifique */
 
+button:hover {
+  background-color: transparent; /* Fond transparent au survol */
+  color: #a18721; /* Texte doré au survol */
+  border-color: #a18721; /* Bordure dorée au survol */
+}
+
+/* Bouton spécifique à la vidéo */
+.video-page-button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); /* Centrage horizontal */
+  padding: 10px 20px;
+  border: 2px solid var(--color-highlight);
+  background-color: var(--color-highlight);
+  color: var(--background);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.video-page-button:hover {
+  background-color: transparent;
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+}
+
+/* Cta-container : bouton avec une bordure dorée */
+.cta-container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border: 2px solid #a18721; /* Bordure dorée */
+  padding: 20px;
+  border-radius: 10px; /* Coins arrondis */
+  background-color: #171717; /* Fond sombre pour contraster avec le doré */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Unification des transitions des bordures et des couleurs des boutons */
+button, .cta-button, .video-page-button {
+  transition: all 0.3s ease;
+}
+
+button:hover, .cta-button:hover, .video-page-button:hover {
+  background-color: transparent; /* Fond transparent au survol */
+  color: #a18721; /* Texte doré au survol */
+  border-color: #a18721; /* Bordure dorée au survol */
+}
+
+/* Classes utilitaires pour les couleurs dorées */
 .bg-gold {
   background-color: #a18721; /* Couleur dorée */
 }
@@ -85,46 +125,80 @@ button {
   border-color: #a18721; /* Bordure dorée */
 }
 
-button {
-  /* Effet de survol */
-  transition: all 0.3s ease;
-}
-
-button:hover {
-  background-color: transparent; /* Fond transparent au survol */
-  color: #a18721; /* Texte doré au survol */
-  border-color: #a18721; /* Bordure dorée au survol */
-}
-
-
-/* Titres et première lettre des textes */
+/* Styles des titres */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Tangerine', cursive; /* Utiliser Tangerine par défaut */
+  font-family: 'Tangerine', cursive; /* Utilisation de Tangerine pour les titres */
   font-weight: bold;
   font-size: 2.5rem;
 }
 
+/* Première lettre des paragraphes en style Pinyon Script */
 p:first-letter {
-  font-family: 'Pinyon Script', cursive; /* Première lettre en Pinyon Script */
+  font-family: 'Pinyon Script', cursive;
   font-size: 2.5rem;
 }
 
-/* Phrases courtes */
+/* Phrases courtes avec une police en italique */
 .short-text {
   font-family: 'Alumni Sans Pinstripe', sans-serif;
   font-style: italic;
 }
-
-/* Autres sections */
-.header, .pricing {
-  font-family: 'Tangerine', cursive;
-}
-/* S'assurer que les liens sont dorés et rouges au survol */
+/* Style global des liens */
 a {
-  color: var(--color-highlight) !important; /* Liens dorés */
-  text-decoration: none; /* Supprime le soulignement */
+  color: var(--foreground); /* Texte du lien avec la couleur du texte clair */
+  text-decoration: none; /* Supprime le soulignement par défaut */
+  transition: color 0.3s ease; /* Transition de la couleur lors du survol */
 }
 
+/* Style des liens au survol */
 a:hover {
-  color: var(--color-red-dark) !important; /* Liens rouges au survol */
+  color: var(--color-highlight); /* Changer la couleur du lien au survol (doré) */
+  text-decoration: underline; /* Ajouter un soulignement au survol */
+}
+
+/* Contexte général du header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem; /* Ajuste la taille du padding si nécessaire */
+  background-color: var(--background); /* Applique la couleur de fond globale */
+}
+
+/* Logo */
+header .logo {
+  flex-shrink: 0; /* Empêche le logo de rétrécir */
+  width: 6rem; /* Ajuste la largeur du logo pour le rendre plus grand */
+  height: auto; /* Maintient les proportions */
+}
+
+header .logo-img {
+  width: 100%; /* Fait en sorte que l'image prenne la largeur du conteneur */
+  height: auto; /* Maintient les proportions */
+}
+
+/* Menu */
+header .nav-links {
+  display: flex;
+  justify-content: flex-end; /* Aligne les liens à droite */
+  gap: 2rem; /* Espace entre les liens */
+  list-style: none !important; /* Enlève les puces de la liste avec !important */
+  padding: 0; /* Enlève les marges par défaut */
+}
+
+/* Style des éléments de la liste */
+header .nav-links li {
+  margin: 0; /* Enlève les marges des éléments de liste */
+}
+
+/* Liens dans le menu */
+header .nav-links a {
+  text-decoration: none;
+  color: var(--foreground); /* Utilisation de la couleur de texte */
+  font-weight: bold; /* Style de texte */
+  transition: color 0.3s ease; /* Transition pour le survol */
+}
+
+header .nav-links a:hover {
+  color: var(--color-highlight); /* Couleur dorée au survol */
 }
