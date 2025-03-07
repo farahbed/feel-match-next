@@ -211,3 +211,19 @@ header .nav-links a:hover {
   color: var(--color-highlight); /* Changer la couleur au survol */
   text-decoration: underline; /* Soulignement au survol */
 }
+
+/* styll call to action  effet zoom */
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.8s ease-out forwards;
+}
