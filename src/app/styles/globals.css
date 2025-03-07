@@ -143,6 +143,7 @@ p:first-letter {
   font-family: 'Alumni Sans Pinstripe', sans-serif;
   font-style: italic;
 }
+
 /* Style global des liens */
 a {
   color: var(--foreground); /* Texte du lien avec la couleur du texte clair */
@@ -178,27 +179,35 @@ header .logo-img {
 }
 
 /* Menu */
-header .nav-links {
-  display: flex;
-  justify-content: flex-end; /* Aligne les liens à droite */
-  gap: 2rem; /* Espace entre les liens */
+.nav-links {
+   gap: 2rem; /* Espace entre les liens */
   list-style: none !important; /* Enlève les puces de la liste avec !important */
   padding: 0; /* Enlève les marges par défaut */
 }
 
-/* Style des éléments de la liste */
-header .nav-links li {
-  margin: 0; /* Enlève les marges des éléments de liste */
+/* Enlève les puces de la liste */
+header .nav-links ul {
+  list-style: none !important; /* Important pour forcer la suppression des puces */
+  padding: 0; /* Enlève les marges par défaut */
+  margin: 0; /* Enlève les marges par défaut */
+  display: flex; /* Affiche les éléments en ligne */
+  gap: inherit; /* Utilise l'espacement défini dans le parent */
 }
 
-/* Liens dans le menu */
+/* Style des liens dans le menu */
+header .nav-links li {
+  margin: 0;
+}
+
 header .nav-links a {
   text-decoration: none;
-  color: var(--foreground); /* Utilisation de la couleur de texte */
-  font-weight: bold; /* Style de texte */
-  transition: color 0.3s ease; /* Transition pour le survol */
+  color: var(--foreground); /* Couleur de texte */
+  font-weight: bold;
+  transition: color 0.3s ease; /* Transition de la couleur lors du survol */
 }
 
+/* Couleur au survol des liens */
 header .nav-links a:hover {
-  color: var(--color-highlight); /* Couleur dorée au survol */
+  color: var(--color-highlight); /* Changer la couleur au survol */
+  text-decoration: underline; /* Soulignement au survol */
 }

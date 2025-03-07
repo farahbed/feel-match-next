@@ -17,7 +17,7 @@ function Header() {
 
       {/* Menu à droite */}
       <nav className="nav-links">
-        <ul className="flex space-x-8">
+        <ul className="flex space-x-8 list-none">
           <li>
             <Link href="#home" className="text-white hover:text-gold">Accueil</Link>
           </li>
