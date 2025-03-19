@@ -25,7 +25,7 @@ const SpeedDatingHomePage = () => {
           <h2 className="text-[3.5rem] text-gold font-cursive leading-tight">
             Feel <span className="text-red-dark">&</span> Match
           </h2>
-          <p className="text-[1.5rem] font-sans text-gray-300 max-w-2xl mx-auto">
+          <p className="text-[1.5rem] font-sans text-gray-300 max-w-2xl mx-auto margin-top-4 margin-bottom-4">
             Une expérience unique ! <br />
             Marre des rendez-vous qui manquent de piment ? <br />
             Marre des applications de rencontre ? <br />
