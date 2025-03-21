@@ -14,6 +14,7 @@
     "@mui/material": "^6.4.3",
     "aos": "^2.3.4",
     "browserslist": "^4.24.4",
+    "framer-motion": "^12.5.0",
     "next": "^13.5.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

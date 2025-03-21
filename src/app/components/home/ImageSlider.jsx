@@ -15,19 +15,13 @@ const ImageSlider = () => {
 
   const settings = {
     infinite: true,
-    speed: 5000,
+    speed: 1000,
     slidesToShow: 4,
     autoplay: true,
-    autoplaySpeed: 1000,
-    cssEase: "linear",
-    centerMode: true,
-    variableWidth: true,
-    arrows: false,
-    pauseOnHover: false,
-    responsive: [
-      { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
-    ],
+    autoplaySpeed: 2500,
+    cssEase: "ease-in-out",
+    pauseOnHover: true,
+
   };
 
   return (

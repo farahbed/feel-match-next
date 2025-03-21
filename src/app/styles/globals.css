@@ -6,33 +6,26 @@
 /* Importation des nouvelles polices depuis Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Pinyon+Script&family=Alumni+Sans+Pinstripe:ital,wght@1,400&family=Red+Hat+Text:wght@400;500&display=swap');
 
-/* Définition des couleurs globales utilisées dans le projet */
+/* Définition des couleurs globales améliorées */
 :root {
-  --background: #171717;  /* Couleur de fond sombre */
-  --foreground: #f8f8f8;  /* Couleur du texte clair */
-  --color-highlight: #a18721;  /* Couleur dorée */
-  --color-red-dark: #500808;  /* Couleur rouge sombre */
+  --background: #171717;  /* Fond sombre */
+  --foreground: #f8f8f8;  /* Texte clair */
+  --color-highlight: #E2C275;  /* Doré amélioré pour plus de lisibilité */
+  --color-red-dark: #500808;  /* Rouge sombre */
 }
-
-/* Application des polices personnalisées */
-.tangerine-title {
+/* Amélioration des titres */
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Tangerine', cursive;
-  font-weight: 700;
+  color: #a18721; /* Couleur dorée */
+  font-weight: bold;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); /* Amélioration lisibilité */
+}
+/* Amélioration des paragraphes */
+p {
+  margin-bottom: 1.5rem; /* Espacement entre paragraphes */
 }
 
-.pinyon-title {
-  font-family: 'Pinyon Script', cursive;
-  font-weight: 400;
-}
-
-.alumni-italic {
-  font-family: 'Alumni Sans Pinstripe', sans-serif;
-  font-style: italic;
-}
-
-.red-hat-text {
-  font-family: 'Red Hat Text', sans-serif;
-}
 
 /* Application globale du style pour la page entière */
 html, body {
@@ -92,44 +85,44 @@ button:hover {
 
 /* Cta-container : bouton avec une bordure dorée */
 .cta-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Pour tout centrer verticalement */
   margin-top: 50px;
   margin-bottom: 50px;
-  border: 2px solid #a18721; /* Bordure dorée */
+  border: 2px solid #947f1a;
   padding: 20px;
-  border-radius: 10px; /* Coins arrondis */
-  background-color: #171717; /* Fond sombre pour contraster avec le doré */
+  border-radius: 10px;
+  background-color: #171717;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Unification des transitions des bordures et des couleurs des boutons */
-button, .cta-button, .video-page-button {
-  transition: all 0.3s ease;
-}
-
-button:hover, .cta-button:hover, .video-page-button:hover {
-  background-color: transparent; /* Fond transparent au survol */
-  color: #a18721; /* Texte doré au survol */
-  border-color: #a18721; /* Bordure dorée au survol */
-}
-
-/* Classes utilitaires pour les couleurs dorées */
-.bg-gold {
-  background-color: #a18721; /* Couleur dorée */
-}
-
-.text-gold {
-  color: #a18721; /* Couleur dorée pour le texte */
-}
-
-.border-gold {
-  border-color: #a18721; /* Bordure dorée */
-}
-
-/* Styles des titres */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Tangerine', cursive; /* Utilisation de Tangerine pour les titres */
+/* Boutons améliorés */
+button, .cta-button {
+  padding: 12px 24px;
+  border: 2px solid var(--color-highlight);
+  background-color: var(--color-highlight);
+  color: var(--background);
   font-weight: bold;
-  font-size: 2.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(226, 194, 117, 0.5);
+ 
+}
+
+button:hover, .cta-button:hover {
+  background-color: transparent;
+  color: var(--color-highlight);
+  border-color: var(--color-highlight);
+  box-shadow: 0 0 15px rgba(226, 194, 117, 0.8);
+}
+
+/* Ajout d'une icône sur le CTA */
+.cta-button::before {
+  content: '❤️';
+  font-size: 1.2rem;
 }
 
 /* Première lettre des paragraphes en style Pinyon Script */
@@ -226,4 +219,23 @@ header .nav-links a:hover {
 
 .animate-zoomIn {
   animation: zoomIn 0.8s ease-out forwards;
+} 
+/* OptionEvent  */
+.blind-speed-container {
+  display: flex;
+  justify-content: center; /* Centre les deux blocs horizontalement */
+  gap: 40px; /* Espacement entre les deux éléments */
+  flex-wrap: wrap; /* Permet un retour à la ligne si nécessaire */
+}
+
+.blind-speed-container div {
+  flex: 1;
+  max-width: 200px; /* Ajuste la largeur maximale pour éviter une trop grande étendue */
+  text-align: center; /* Centre le texte à l'intérieur */
+}
+.separator {
+  width: 2px; /* Largeur du séparateur */
+  background: linear-gradient(to bottom, transparent, #7a6725, transparent);
+  min-height: 100px; /* Augmente cette valeur si nécessaire */
+  flex-shrink: 0; /* Empêche la réduction automatique */
 }

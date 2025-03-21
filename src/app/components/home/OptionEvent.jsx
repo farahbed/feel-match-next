@@ -1,33 +1,40 @@
-import React from "react";
+import { motion } from "framer-motion";
 
-const OptionEvent = () => {
+export default function OptionEvent() {
   return (
-    <section className="w-full py-16 text-center">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Blind Date */}
-        <div>
-          <h2 className="text-gold text-3xl font-bold">Blind Date</h2>
-          <p className="mt-4 text-red-dark leading-relaxed">
-            Vivez un rendez-vous unique où le destin frappe à votre porte. Grâce à notre formulaire, nous vous mettons en relation avec une personne qui correspond à vos attentes. Pas de surprises, juste des connexions authentiques sur mesure.
-          </p>
-          <p className="mt-3 text-red-dark leading-relaxed">
-            Un rendez-vous mystère, où l'excitation et la curiosité se mêlent. Oubliez les mauvaises rencontres, ici chaque instant est un pas vers celui ou celle qui vous correspond vraiment.
-          </p>
-        </div>
+    <div className="flex items-center justify-center h-screen bg-black text-white">
+      <div className="blind-speed-container flex flex-row w-full max-w-4xl border border-gray-500 divide-x divide-gray-500">
+        {/* Blind Date Block */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 1 }}
+          className="w-1/2 p-8 text-center flex flex-col items-center"
+        >
+          <h2 className="text-3xl font-bold text-gold">Blind Date</h2>
+          <p className="mt-4 text-red-dark">Vivez un rendez-vous unique où le destin frappe à votre porte...</p>
+          <p className="mt-3 text-red-dark">Un rendez-vous mystère, où l'excitation et la curiosité se mêlent...</p>
+          <p className="mt-3 text-red-dark">Partagez un moment spécial avec un inconnu et laissez la magie opérer.</p>
+          <p className="mt-3 text-red-dark">Saurez-vous reconnaître votre âme sœur dans l'ombre du mystère ?</p>
+        </motion.div>
 
-        {/* Speed Dating */}
-        <div>
-          <h2 className="text-gold font-bold">Speed Dating</h2>
-          <p className="mt-4 text-red-dark leading-relaxed">
-            En seulement quelques minutes, plongez dans une série de rencontres captivantes. Chaque rendez-vous est conçu pour révéler la meilleure version de vous-même, et chaque rencontre vous rapproche de votre match idéal. Rapide, fun, et efficace – c'est l'occasion de créer des connexions authentiques, sans perdre de temps.
-          </p>
-          <p className="mt-3 text-red-dark leading-relaxed">
-            Chaque rencontre est une chance, chaque seconde compte. Tendez vers l'amour, avec des moments de partage instantanés et intenses.
-          </p>
-        </div>
+       {/* Separator */}
+<div className="separator h-full"></div>
+
+        {/* Speed Dating Block */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 1, delay: 0.5 }}
+          className="w-1/2 p-8 text-center flex flex-col items-center"
+        >
+          <h2 className="text-3xl font-bold text-gold">Speed Dating</h2>
+          <p className="mt-4 text-red-dark">Découvrez plusieurs personnes en un temps limité...</p>
+          <p className="mt-3 text-red-dark">Un moyen rapide et efficace de faire de nouvelles rencontres...</p>
+          <p className="mt-3 text-red-dark">Brisez la glace en quelques minutes et laissez votre charme opérer.</p>
+          <p className="mt-3 text-red-dark">Qui sait ? Un sourire, un regard, et tout peut changer.</p>
+        </motion.div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default OptionEvent;
+}
