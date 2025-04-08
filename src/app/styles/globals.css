@@ -89,8 +89,7 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center; /* Pour tout centrer verticalement */
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 50px 40px; /* Marge autour du conteneur */
   border: 2px solid #947f1a;
   padding: 20px;
   border-radius: 10px;
@@ -150,60 +149,88 @@ a:hover {
   text-decoration: underline; /* Ajouter un soulignement au survol */
 }
 
-/* Contexte général du header */
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem; /* Ajuste la taille du padding si nécessaire */
-  background-color: var(--background); /* Applique la couleur de fond globale */
+  padding: 1rem 2rem;
+  background-color: var(--background); /* Couleur de fond */
+  position: relative;
 }
 
 /* Logo */
 header .logo {
-  flex-shrink: 0; /* Empêche le logo de rétrécir */
-  width: 6rem; /* Ajuste la largeur du logo pour le rendre plus grand */
-  height: auto; /* Maintient les proportions */
+  flex-shrink: 0;
+  width: 4rem; /* Réduit la taille du logo */
+  height: auto;
 }
 
 header .logo-img {
-  width: 100%; /* Fait en sorte que l'image prenne la largeur du conteneur */
-  height: auto; /* Maintient les proportions */
+  width: 100%;
+  height: auto;
 }
 
-/* Menu */
+/* Menu Desktop */
 .nav-links {
-   gap: 2rem; /* Espace entre les liens */
-  list-style: none !important; /* Enlève les puces de la liste avec !important */
-  padding: 0; /* Enlève les marges par défaut */
+  display: flex;
+  gap: 2rem;
 }
 
-/* Enlève les puces de la liste */
 header .nav-links ul {
-  list-style: none !important; /* Important pour forcer la suppression des puces */
-  padding: 0; /* Enlève les marges par défaut */
-  margin: 0; /* Enlève les marges par défaut */
-  display: flex; /* Affiche les éléments en ligne */
-  gap: inherit; /* Utilise l'espacement défini dans le parent */
-}
-
-/* Style des liens dans le menu */
-header .nav-links li {
+  list-style: none;
+  padding: 0;
   margin: 0;
+  display: flex;
+  gap: inherit;
 }
 
 header .nav-links a {
   text-decoration: none;
-  color: var(--foreground); /* Couleur de texte */
+  color: var(--foreground);
   font-weight: bold;
-  transition: color 0.3s ease; /* Transition de la couleur lors du survol */
+  transition: color 0.3s ease;
 }
 
-/* Couleur au survol des liens */
 header .nav-links a:hover {
-  color: var(--color-highlight); /* Changer la couleur au survol */
-  text-decoration: underline; /* Soulignement au survol */
+  color: var(--color-highlight);
+  text-decoration: underline;
 }
+
+/* Menu Burger */
+.menu-button {
+  display: none; /* Caché par défaut */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Afficher le menu burger SEULEMENT en mobile */
+@media screen and (max-width: 768px) {
+  .nav-links {
+    display: none; /* Cacher le menu classique */
+  }
+
+  .menu-button {
+    display: block; /* Affiche le menu burger */
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--background);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* fin du header */
 
 /* styll call to action  effet zoom */
 @keyframes zoomIn {

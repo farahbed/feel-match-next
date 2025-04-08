@@ -20,12 +20,14 @@ const SpeedDatingHomePage = () => {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center text-center px-4">
       <main className="flex flex-col items-center justify-center gap-12 w-full max-w-4xl mx-auto">
+        
         {/* Titre principal */}
         <section className="w-full py-16">
-          <h2 className="text-[3.5rem] text-gold font-cursive leading-tight">
+          <h2 className="text-[3.5rem] text-gold font-cursive leading-tight mt-8 drop-shadow-lg tracking-wide">
             Feel <span className="text-red-dark">&</span> Match
           </h2>
-          <p className="text-[1.5rem] font-sans text-gray-300 max-w-2xl mx-auto margin-top-4 margin-bottom-4">
+
+          <p className="text-[1.5rem] font-sans text-gray-300 max-w-2xl mx-auto mt-6 mb-8 leading-relaxed">
             Une expérience unique ! <br />
             Marre des rendez-vous qui manquent de piment ? <br />
             Marre des applications de rencontre ? <br />

@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import SpeedDatingHomePage from "./components/home/SpeedDatingHomePage";
 import VideoPage from "./components/home/VideoPage";
 
+
 export default function Home() {
   const [showVideo, setShowVideo] = useState(true);
 
