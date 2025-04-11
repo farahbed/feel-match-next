@@ -266,3 +266,65 @@ header .nav-links a:hover {
   min-height: 100px; /* Augmente cette valeur si nécessaire */
   flex-shrink: 0; /* Empêche la réduction automatique */
 }
+/* page Login/inscription  */
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-translucide */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* S'assure que la modale est au-dessus de tout */
+}
+
+.modal-content {
+  background-color: #595122; /* Doré */
+  color: black;
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transform: scale(0.9);
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-content.show {
+  transform: scale(1);
+}
+
+/* Ajout pour aligner les labels et inputs proprement */
+.form-group {
+  display: flex;
+  flex-direction: column; /* Aligner les éléments verticalement */
+  gap: 10px; /* Espacer les éléments de manière homogène */
+  margin-bottom: 15px; /* Marge sous chaque champ de formulaire */
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333; /* Couleur plus foncée pour les labels */
+  margin-bottom: 5px; /* Espacement entre le label et l'input */
+}
+
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd; /* Bordure plus légère */
+  background-color: #fff;
+  font-size: 1rem;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box; /* Assure que le padding ne dépasse pas la largeur de l'input */
+}
+
+input:focus {
+  outline: none;
+  border-color: #FFD700; /* Bordure dorée au focus */
+}

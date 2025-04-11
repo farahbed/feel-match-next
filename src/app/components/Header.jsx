@@ -30,10 +30,10 @@ function Header() {
         <Link href="#contact" className="hover:text-gold" onClick={() => console.log("📞 Lien Contact cliqué")}>
           Contact
         </Link>
-        <Link href="/login" className="hover:text-gold" onClick={() => console.log("🔐 Lien Connexion cliqué")}>
+        <Link href="/login?register=false" className="hover:text-gold" onClick={() => console.log("🔐 Lien Connexion cliqué")}>
           Se connecter
         </Link>
-        <Link href="/register" className="hover:text-gold" onClick={() => console.log("📝 Lien Inscription cliqué")}>
+        <Link href="/login?register=true" className="hover:text-gold" onClick={() => console.log("📝 Lien Inscription cliqué")}>
           S'inscrire
         </Link>
       </nav>
