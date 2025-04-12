@@ -182,7 +182,7 @@ header .nav-links ul {
   padding: 0;
   margin: 0;
   display: flex;
-  gap: inherit;
+  gap: 2rem;
 }
 
 header .nav-links a {
@@ -190,6 +190,7 @@ header .nav-links a {
   color: var(--foreground);
   font-weight: bold;
   transition: color 0.3s ease;
+  
 }
 
 header .nav-links a:hover {
@@ -197,40 +198,6 @@ header .nav-links a:hover {
   text-decoration: underline;
 }
 
-/* Menu Burger */
-.menu-button {
-  display: none; /* Caché par défaut */
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* Afficher le menu burger SEULEMENT en mobile */
-@media screen and (max-width: 768px) {
-  .nav-links {
-    display: none; /* Cacher le menu classique */
-  }
-
-  .menu-button {
-    display: block; /* Affiche le menu burger */
-  }
-
-  .mobile-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--background);
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* fin du header */
 
 /* styll call to action  effet zoom */
 @keyframes zoomIn {
@@ -266,65 +233,98 @@ header .nav-links a:hover {
   min-height: 100px; /* Augmente cette valeur si nécessaire */
   flex-shrink: 0; /* Empêche la réduction automatique */
 }
-/* page Login/inscription  */
 
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-translucide */
+
+/* Styles spécifiques à la page Login/Inscription */
+.login-page {
+  background-color: #000; /* Fond noir pour la page */
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000; /* S'assure que la modale est au-dessus de tout */
+  justify-content: center;
+  padding: 0 1rem;
 }
 
-.modal-content {
-  background-color: #595122; /* Doré */
-  color: black;
-  border-radius: 15px;
-  padding: 20px;
-  width: 100%;
-  max-width: 400px;
+.login-page .box {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.75rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  transform: scale(0.9);
-  transition: transform 0.3s ease-in-out;
+  max-width: 450px;
+  width: 100%;
 }
 
-.modal-content.show {
-  transform: scale(1);
+button {
+  background-color: #000;
+  color: #FFD700;
+  padding: 12px;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Ajout pour aligner les labels et inputs proprement */
+button:hover {
+  background-color: #FF6347; /* rouge */
+  color: #fff;
+}
+
+/* Texte central de bas de page pour toggle */
+.text-center {
+  text-align: center;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-red-700 {
+  color: #b91c1c;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+
+/* Pour les champs du formulaire (en colonne) */
 .form-group {
   display: flex;
-  flex-direction: column; /* Aligner les éléments verticalement */
-  gap: 10px; /* Espacer les éléments de manière homogène */
-  margin-bottom: 15px; /* Marge sous chaque champ de formulaire */
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
 label {
   font-size: 1rem;
   font-weight: 600;
-  color: #333; /* Couleur plus foncée pour les labels */
-  margin-bottom: 5px; /* Espacement entre le label et l'input */
+  color: #333;
+  margin-bottom: 5px;
 }
 
 input {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #ddd; /* Bordure plus légère */
+  border: 1px solid #ddd;
   background-color: #fff;
   font-size: 1rem;
   color: #333;
   width: 100%;
-  box-sizing: border-box; /* Assure que le padding ne dépasse pas la largeur de l'input */
+  box-sizing: border-box;
 }
 
 input:focus {
   outline: none;
-  border-color: #FFD700; /* Bordure dorée au focus */
+  border-color: #FFD700;
 }
