@@ -456,3 +456,144 @@ a:hover {
   color: var(--color-highlight);
   text-decoration: underline;
 }
+.user-info {
+  background-color: #2d2d2d;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin-inline: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.user-info img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-highlight);
+}
+
+.user-info p {
+  margin-top: 1rem;
+  color: var(--foreground);
+  font-style: italic;
+}
+/*photo de profil */
+.profil-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 4px solid #e2c275;
+  box-shadow: 0 0 12px rgba(226, 194, 117, 0.5);
+  transition: all 0.3s ease;
+}
+
+.profil-photo:hover {
+  box-shadow: 0 0 20px rgba(226, 194, 117, 0.8);
+}
+.upload-label {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #d6336c;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.hidden-file-input {
+  display: none; /* Masque l'input file */
+}
+
+/**************Page profile *****************/
+/* Profil.css */
+
+.profil-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.profil-citation, .profil-infos, .profil-recherche, .profil-projet, .profil-galerie-section {
+  background-color: #1f1f1f;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.input-edit {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.save-button, .edit-button {
+  margin-top: 0.5rem;
+  background-color: #d6336c;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.upload-label {
+  display: inline-block;
+  margin-bottom: 1rem;
+  background: #d6336c;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+/* Section de la galerie */
+.galerie-grid {
+  display: flex; /* Utilisation de flexbox pour aligner les éléments en ligne */
+  flex-wrap: wrap; /* Permet aux éléments de se réorganiser si l'espace est insuffisant */
+  gap: 1rem; /* Espacement entre les photos */
+}
+
+.profile-gallery {
+  position: relative;
+  width: 150px; /* Largeur fixe pour les photos */
+  height: 150px; /* Hauteur fixe pour les photos */
+}
+
+.profile-gallery-img {
+  width: 100%; /* L'image prend la totalité de l'espace disponible */
+  height: 100%; /* L'image occupe toute la hauteur du conteneur */
+  object-fit: cover; /* L'image s'adapte sans déformation */
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.delete-photo-button {
+  background-color: #d6336c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  transition: background-color 0.3s ease;
+  z-index: 1; /* Pour s'assurer que le bouton soit au-dessus de l'image */
+}
+
+.delete-photo-button:hover {
+  background-color: #a02b4b;
+}
