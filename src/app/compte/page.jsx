@@ -5,9 +5,10 @@ import Profil from '../components/Profil';
 export default function Compte() {
   const [section, setSection] = useState('profil');
   const [user, setUser] = useState({
-    photoUrl: '/default-profile.png', // Image par défaut
+    photoUrl: '/default-profile.png',
     bio: "Je suis une passionnée de voyages et de découvertes culinaires.",
   });
+  const [isEditingBio, setIsEditingBio] = useState(false);
 
   const handleProfilePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -15,7 +16,7 @@ export default function Compte() {
       const newPhotoUrl = URL.createObjectURL(file);
       setUser((prevUser) => ({
         ...prevUser,
-        photoUrl: newPhotoUrl, // Met à jour la photo de profil
+        photoUrl: newPhotoUrl,
       }));
     }
   };
@@ -23,7 +24,7 @@ export default function Compte() {
   const renderContent = () => {
     switch (section) {
       case 'profil':
-        return <Profil />;  // Affiche le composant Profil
+        return <Profil />;
       case 'matchs':
         return (
           <div className="card">
@@ -71,11 +72,6 @@ export default function Compte() {
           alt="Photo de profil"
           className="profil-photo"
         />
-        <div className="profil-bio">
-          <h2>Nom d'utilisateur</h2>
-          <p>{user.bio || "Aucune bio renseignée."}</p>
-        </div>
-        {/* Bouton pour changer la photo de profil */}
         <label className="upload-label">
           Modifier la photo
           <input
@@ -85,8 +81,33 @@ export default function Compte() {
             className="hidden-file-input"
           />
         </label>
+
+        <div className="profil-bio">
+          <h2>Nom d'utilisateur</h2>
+          {isEditingBio ? (
+            <>
+              <textarea
+                value={user.bio}
+                onChange={(e) =>
+                  setUser((prevUser) => ({ ...prevUser, bio: e.target.value }))
+                }
+                className="input-edit"
+              />
+              <button className="save-button" onClick={() => setIsEditingBio(false)}>
+                Sauvegarder
+              </button>
+            </>
+          ) : (
+            <div className="bio-display">
+              <p>{user.bio || "Aucune bio renseignée."}</p>
+              <button className="edit-button" onClick={() => setIsEditingBio(true)}>
+                ✏️
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-  
+
       {/* Partie basse : navigation + contenu */}
       <div className="compte-container">
         <nav className="nav-container">
@@ -99,7 +120,6 @@ export default function Compte() {
           </div>
         </nav>
 
-        {/* Zone de contenu principale : affichage dynamique en fonction de la section */}
         <main className="main-content">
           {renderContent()}
         </main>

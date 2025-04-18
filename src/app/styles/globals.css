@@ -330,7 +330,7 @@ input:focus {
 }
 
 
-/* Container principal pour le contenu et la navigation compte utilisateur */
+/********** page compte ***********/
 
 /* Container principal pour le contenu et la navigation */
 .compte-container {
@@ -482,6 +482,7 @@ a:hover {
   font-style: italic;
 }
 /*photo de profil */
+
 .profil-photo {
   width: 150px;
   height: 150px;
@@ -508,6 +509,36 @@ a:hover {
 .hidden-file-input {
   display: none; /* Masque l'input file */
 }
+
+/*bio */
+.profil-bio {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.edit-button {
+  background: none;
+  border: none;
+  color: #e2c275;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: transform 0.2s ease;
+}
+
+.edit-button:hover {
+  transform: scale(1.2);
+}
+
+.bio-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 
 /**************Page profile *****************/
 /* Profil.css */
