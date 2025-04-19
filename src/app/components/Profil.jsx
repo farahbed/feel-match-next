@@ -4,7 +4,7 @@ import { useState } from 'react';
 export default function Profil() {
   const [profil, setProfil] = useState({
     citation: "",
-    nom: "",
+    Prenom: "",
     age: "",
     ville: "",
     taille: "",
@@ -58,15 +58,15 @@ export default function Profil() {
       <section className="profil-citation">
         {editMode ? (
           <textarea
-            name="citation"
-            value={profil.citation}
+            name="presentation"
+            value={profil.presentation}
             onChange={handleChange}
             className="input-edit"
             rows="2"
-            placeholder="Votre citation ici..."
+            placeholder="Votre presentation ici..."
           />
         ) : (
-          <blockquote>{profil.citation || "Votre citation ici..."}</blockquote>
+          <blockquote>{profil.presentation || "Votre presentation ici..."}</blockquote>
         )}
       </section>
 

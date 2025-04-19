@@ -5,10 +5,12 @@ import Profil from '../components/Profil';
 export default function Compte() {
   const [section, setSection] = useState('profil');
   const [user, setUser] = useState({
-    photoUrl: '/default-profile.png',
+    name: "Nom d'utilisateur",
+    photoUrl: '',
     bio: "Je suis une passionnée de voyages et de découvertes culinaires.",
   });
   const [isEditingBio, setIsEditingBio] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
 
   const handleProfilePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -65,25 +67,54 @@ export default function Compte() {
 
   return (
     <div className="compte-page">
-      {/* Partie haute : photo + bio */}
+      {/* Partie haute : avatar + nom + bio */}
       <div className="profil-header">
-        <img
-          src={user.photoUrl}
-          alt="Photo de profil"
-          className="profil-photo"
-        />
-        <label className="upload-label">
-          Modifier la photo
+        <div className="photo-container">
+          <img
+            src={user.photoUrl || '/default-avatar.png'}
+            alt="Photo de profil"
+            className="profil-photo"
+            onClick={() => document.getElementById('photo-upload').click()}
+          />
+          <button
+            className="edit-photo-button"
+            onClick={() => document.getElementById('photo-upload').click()}
+          >
+            ✏️
+          </button>
           <input
             type="file"
+            id="photo-upload"
             accept="image/*"
             onChange={handleProfilePhotoChange}
-            className="hidden-file-input"
+            style={{ display: 'none' }}
           />
-        </label>
+        </div>
 
         <div className="profil-bio">
-          <h2>Nom d'utilisateur</h2>
+          {isEditingName ? (
+            <>
+              <input
+                type="text"
+                value={user.name}
+                onChange={(e) =>
+                  setUser((prevUser) => ({ ...prevUser, name: e.target.value }))
+                }
+                className="input-edit"
+              />
+              <button className="save-button" onClick={() => setIsEditingName(false)}>
+                Enregistrer
+              </button>
+            </>
+          ) : (
+            <div className="bio-display">
+              <h2>{user.name}</h2>
+              <button className="edit-button" onClick={() => setIsEditingName(true)}>
+                ✏️
+              </button>
+            </div>
+          )}
+
           {isEditingBio ? (
             <>
               <textarea
