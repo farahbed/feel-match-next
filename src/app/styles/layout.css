@@ -1,0 +1,119 @@
+/* ----------------------------- */
+/*         LAYOUT.CSS           */
+/* ----------------------------- */
+
+/* Conteneur pour Blind & Speed blocks */
+.blind-speed-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.blind-speed-container div {
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+}
+
+/* Séparateur central doré entre deux colonnes */
+.separator {
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, #7a6725, transparent);
+  min-height: 100px;
+  flex-shrink: 0;
+}
+
+/* Mise en page centrée pour la page de connexion */
+.login-page {
+  background-color: #000;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+.login-page .box {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  max-width: 450px;
+  width: 100%;
+}
+
+/* Disposition générale de la page compte */
+.compte-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 70%;
+}
+
+.nav-container {
+  position: sticky;
+  top: 0;
+  width: 250px;
+  margin-left: 2rem;
+  background-color: #1f1f1f;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Titres & textes dans les sections de profil */
+.section-content {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-family: 'Tangerine', cursive;
+  font-size: 2.5rem;
+  color: #a18721;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.section-text {
+  font-family: 'Red Hat Text', sans-serif;
+  color: var(--foreground);
+}
+
+/* Carte utilisateur dans le profil */
+.user-info {
+  background-color: #2d2d2d;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin-inline: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Mise en page des sections de profil */
+.profil-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.profil-citation,
+.profil-infos,
+.profil-recherche,
+.profil-projet,
+.profil-galerie-section {
+  background-color: #1f1f1f;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}

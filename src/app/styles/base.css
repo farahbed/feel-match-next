@@ -1,0 +1,85 @@
+/* ----------------------------- */
+/*        BASE.CSS GÉNÉRAL       */
+/* ----------------------------- */
+
+/* Importation des polices Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&family=Pinyon+Script&family=Alumni+Sans+Pinstripe:ital,wght@1,400&family=Red+Hat+Text:wght@400;500&display=swap');
+
+/* Variables globales (thème) */
+:root {
+  --background: #171717;
+  --foreground: #f8f8f8;
+  --color-highlight: #E2C275;
+  --color-red-dark: #500808;
+}
+
+/* Styles pour les titres */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Tangerine', cursive;
+  color: #a18721;
+  font-weight: bold;
+  font-size: 2.5rem;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Style des paragraphes */
+p { margin-bottom: 1.5rem; }
+
+/* Reset et style global pour le body */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Red Hat Text', sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Utilitaires classiques */
+.min-h-screen { min-height: 100vh; }
+
+/* Style de la vidéo en plein écran */
+video {
+  width: 90vw;
+  height: 90vh;
+  object-fit: cover;
+}
+
+/* Style spécial première lettre */
+p:first-letter {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 2.5rem;
+}
+
+/* Style alternatif pour courts textes */
+.short-text {
+  font-family: 'Alumni Sans Pinstripe', sans-serif;
+  font-style: italic;
+}
+
+/* Lien par défaut + hover */
+a {
+  color: var(--foreground);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-highlight);
+  text-decoration: underline;
+}
+
+
+/* Animation personnalisée Zoom In */
+@keyframes zoomIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.8s ease-out forwards;
+}
