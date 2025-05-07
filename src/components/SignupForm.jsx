@@ -23,7 +23,7 @@ export default function SignupForm() {
     e.preventDefault();
 
     try {
-      const res = await fetch('https://qq0238b626.execute-api.eu-west-3.amazonaws.com/dev/signup', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

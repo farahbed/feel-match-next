@@ -34,7 +34,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch('https://qq0238b626.execute-api.eu-west-3.amazonaws.com/dev/login', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -46,6 +46,8 @@ export default function LoginPage() {
         // ✅ Stocke le rôle et l'email dans le navigateur
         localStorage.setItem('userRole', data.role);
         localStorage.setItem('userEmail', data.email);
+        // ✅ Stocke le token dans le navigateur
+        localStorage.setItem('token', data.token);
       
         // ✅ Affiche le message
         setMessage('Connexion réussie !');

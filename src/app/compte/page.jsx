@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import Profil from '../../components/compte-components/Profil';
 import MessagerieUser from '@/components/compte-components/Messagerie';
 import ParametresUser from '@/components/compte-components/ParametresUser';
+import PageMatch from '@/components/compte-components/match/PageMatch';
+import MatchForm from '@/components/compte-components/formulaire/MatchForm';
 import '../../components/Header';
 
 export default function Compte() {
@@ -17,21 +19,25 @@ export default function Compte() {
   const router = useRouter();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('userRole');
+  
+    // Si pas connecté → redirige vers /login
+    if (!token || !role) {
+      router.push('/login');
+      return;
+    }
+  
     const savedName = localStorage.getItem('userName');
     const savedBio = localStorage.getItem('userBio');
     const savedPhoto = localStorage.getItem('userPhotoUrl');
-    
+  
     setUser(prev => ({
       ...prev,
       name: savedName || prev.name,
       bio: savedBio || prev.bio,
       photoUrl: savedPhoto || prev.photoUrl
     }));
-
-    const role = localStorage.getItem('userRole');
-    if (role !== 'user') {
-      router.push('/login');
-    }
   }, []);
 
   const handleProfilePhotoChange = (e) => {
@@ -51,12 +57,7 @@ export default function Compte() {
       case 'profil':
         return <Profil />;
       case 'matchs':
-        return (
-          <div className="card bg-black p-6 rounded-lg shadow-lg border-2 border-[#c2a661] hover:border-yellow-500 transition-all duration-300">
-            <h2 className="section-title text-[#c2a661] text-3xl">Mes Matchs</h2>
-            <p className="section-text text-white">Ici vos matchs s'afficheront !</p>
-          </div>
-        );
+        return <PageMatch />;
       case 'evenements':
         return (
           <div className="card bg-black p-6 rounded-lg shadow-lg border-2 border-[#c2a661] hover:border-yellow-500 transition-all duration-300">
@@ -64,11 +65,13 @@ export default function Compte() {
             <p className="section-text text-white">Vos événements à venir ici.</p>
           </div>
         );
+      case 'formulaire':
+        return <MatchForm />;
       case 'achats':
         return (
           <div className="card bg-black p-6 rounded-lg shadow-lg border-2 border-[#c2a661] hover:border-yellow-500 transition-all duration-300">
             <h2 className="section-title text-[#c2a661] text-3xl">Achats</h2>
-            <p className="section-text text-white">Historique de vos achats.</p>
+            <p className="section-text text-white">Vos achats récents ici.</p>
           </div>
         );
         case 'parametres':
@@ -118,6 +121,7 @@ export default function Compte() {
           <div className="nav-links space-x-2 md:space-x-0 md:space-y-2">
             <button onClick={() => setSection('profil')} className={`block w-full p-2 rounded ${section === 'profil' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mon Profil</button>
             <button onClick={() => setSection('matchs')} className={`block w-full p-2 rounded ${section === 'matchs' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mes Matchs</button>
+            <button onClick={() => setSection('formulaire')} className={`block w-full p-2 rounded ${section === 'formulaire' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Tirage de Match</button>
             <button onClick={() => setSection('evenements')} className={`block w-full p-2 rounded ${section === 'evenements' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Événements</button>
             <button onClick={() => setSection('achats')} className={`block w-full p-2 rounded ${section === 'achats' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Achats</button>
             <button onClick={() => setSection('parametres')} className={`block w-full p-2 rounded ${section === 'parametres' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Paramètres</button>

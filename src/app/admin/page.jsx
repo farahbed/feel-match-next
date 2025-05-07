@@ -2,38 +2,20 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import StatsPage from './stats';
+import AdminMessagerie from './AdminMessagerie';
 import { User, MessageSquare, BarChart2 } from 'lucide-react';
 
 export default function AdminPage() {
   const router = useRouter();
   const [section, setSection] = useState('utilisateurs');
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     const role = localStorage.getItem('userRole');
-    if (role !== 'admin') {
+    if (!token || role !== 'admin') {
       router.push('/login');
     }
   }, []);
-
-  const handleSendMessage = () => {
-    const messages = JSON.parse(localStorage.getItem('messages')) || [];
-    messages.push({ user: "Admin", content: message, timestamp: new Date().toISOString() });
-    localStorage.setItem('messages', JSON.stringify(messages));
-
-    setMessage(""); // Clear message field
-    setSection('utilisateurs'); // Go back to users list
-  };
-
-  const handleReply = (messageIndex, reply) => {
-    const storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
-    const updatedMessages = [...storedMessages];
-
-    // Add reply to message
-    updatedMessages[messageIndex].reply = reply;
-
-    localStorage.setItem('messages', JSON.stringify(updatedMessages));
-  };
 
   const renderContent = () => {
     switch (section) {
@@ -65,7 +47,7 @@ export default function AdminPage() {
                         className="text-yellow-400 hover:text-yellow-600 px-4 py-2 rounded-lg"
                         onClick={() => setSection('message')}
                       >
-                        Envoyer un message
+                        Voir les messages
                       </button>
                     </td>
                   </tr>
@@ -74,47 +56,15 @@ export default function AdminPage() {
             </table>
           </div>
         );
+
       case 'message':
-        const storedMessages = JSON.parse(localStorage.getItem('messages')) || [];
-        return (
-          <div className="p-6 text-white">
-            <h3 className="text-3xl font-semibold mb-4">Messagerie</h3>
-            {storedMessages.length === 0 ? (
-              <p>Aucun message pour le moment.</p>
-            ) : (
-              <div className="space-y-4">
-                {storedMessages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`flex items-start ${msg.user === 'Admin' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-xs p-4 rounded-lg shadow-lg ${msg.user === 'Admin' ? 'bg-[#c2a661] text-black' : 'bg-red-600 text-white'} mx-2`}
-                    >
-                      <p><strong>{msg.user} :</strong> {msg.content}</p>
-                      <p className="text-sm text-gray-300">{new Date(msg.timestamp).toLocaleString()}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            <textarea
-              className="w-full p-4 mt-4 rounded-lg bg-gray-700 text-white"
-              rows="3"
-              placeholder="Répondre à ce message..."
-              onChange={(e) => handleReply(index, e.target.value)} 
-            ></textarea>
-            <button
-              className="mt-2 bg-[#c2a661] text-black py-2 px-6 rounded-lg hover:bg-[#c2a661]"
-            >
-              Répondre
-            </button>
-          </div>
-        );
-        case 'stats':
-          return <StatsPage />;  // Show StatsPage when 'stats' section is selected
-        default:
-          return null;
+        return <AdminMessagerie />;
+
+      case 'stats':
+        return <StatsPage />;
+
+      default:
+        return null;
     }
   };
 

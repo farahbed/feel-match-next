@@ -2,23 +2,30 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null);
+  const router = useRouter();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     const storedRole = localStorage.getItem('userRole');
+    const storedName = localStorage.getItem('userName');
+    const storedEmail = localStorage.getItem('userEmail');
+
     setRole(storedRole);
-  }, []); // ✅ Stable, sans erreur React
+    setUser(storedName || storedEmail || null);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmail');
+    localStorage.clear(); // 🔐 Supprime token + infos
     setRole(null);
-    window.location.href = '/';
+    setUser(null);
+    router.push('/login');
   };
 
   return (
@@ -43,6 +50,10 @@ export default function Header() {
 
           {role === 'user' && (
             <Link href="/compte" className="hover:text-accent transition-colors">Mon Compte</Link>
+          )}
+
+          {user && (
+            <span className="text-yellow-400 font-medium">Bonjour {user}</span>
           )}
 
           {role && (
@@ -83,13 +94,17 @@ export default function Header() {
             <Link href="/compte" onClick={toggleMenu}>Mon Compte</Link>
           )}
 
+          {user && (
+            <span className="text-yellow-400 font-medium px-2">Bonjour {user}</span>
+          )}
+
           {role && (
             <button
               onClick={() => {
                 handleLogout();
                 toggleMenu();
               }}
-              className="text-sm text-red-500 hover:underline"
+              className="text-sm text-red-500 hover:underline text-left"
             >
               Se déconnecter
             </button>

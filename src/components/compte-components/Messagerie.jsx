@@ -1,46 +1,89 @@
-import { useState } from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 
 export default function MessagerieUser() {
   const [selectedConversation, setSelectedConversation] = useState(null);
-
-  const conversations = [
-    {
-      id: 1,
-      name: 'Alex',
-      messages: [
-        { id: 1, sender: 'Moi', content: 'Salut Alex !', time: '20h00' },
-        { id: 2, sender: 'Alex', content: 'Salut ! Ça va ?', time: '20h01' },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Sarah',
-      messages: [
-        { id: 1, sender: 'Moi', content: 'Coucou Sarah !', time: '19h30' },
-        { id: 2, sender: 'Sarah', content: 'Hey ! Quoi de neuf ?', time: '19h32' },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Mohamed',
-      messages: [
-        { id: 1, sender: 'Moi', content: 'Salam Mohamed !', time: '18h00' },
-        { id: 2, sender: 'Mohamed', content: 'Wa 3alaykom salam !', time: '18h02' },
-      ],
-    },
-  ];
-
+  const [conversations, setConversations] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSend = () => {
-    if (newMessage.trim() !== '') {
-      const updatedMessages = [
-        ...selectedConversation.messages,
-        { id: selectedConversation.messages.length + 1, sender: 'Moi', content: newMessage, time: 'Maintenant' },
-      ];
-      const updatedConversation = { ...selectedConversation, messages: updatedMessages };
-      setSelectedConversation(updatedConversation);
-      setNewMessage('');
+  // Charger les messages depuis DynamoDB
+  useEffect(() => {
+    const userEmail = localStorage.getItem('userEmail');
+    if (!userEmail) return;
+
+    const fetchMessages = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/getMessages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userA: userEmail, userB: 'admin@email.com' }) // 👈 à adapter si besoin
+        });
+
+        const data = await res.json();
+        setMessages(data);
+        setConversations([
+          {
+            id: 1,
+            name: 'Admin',
+            messages: data.map((m, i) => ({
+              id: i + 1,
+              sender: m.sender === userEmail ? 'Moi' : m.sender,
+              content: m.content,
+              time: new Date(Number(m.timestamp)).toLocaleTimeString()
+            }))
+          }
+        ]);
+      } catch (err) {
+        console.error("Erreur de chargement des messages", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMessages();
+  }, []);
+
+  // Envoi d'un nouveau message
+  const handleSend = async () => {
+    if (newMessage.trim() === '' || !selectedConversation) return;
+
+    const sender = localStorage.getItem('userEmail');
+    const recipient = 'admin@email.com';
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender, recipient, content: newMessage })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        const now = new Date();
+        const newMsg = {
+          id: selectedConversation.messages.length + 1,
+          sender: 'Moi',
+          content: newMessage,
+          time: now.toLocaleTimeString()
+        };
+
+        const updated = {
+          ...selectedConversation,
+          messages: [...selectedConversation.messages, newMsg]
+        };
+
+        setSelectedConversation(updated);
+        setNewMessage('');
+        // new Audio('/send.mp3').play(); // à activer plus tard
+      } else {
+        console.error('Erreur lors de l’envoi :', data.message);
+      }
+    } catch (err) {
+      console.error('Erreur réseau :', err);
     }
   };
 
@@ -50,8 +93,6 @@ export default function MessagerieUser() {
 
   return (
     <div className="flex flex-col h-screen bg-black">
-
-      {/* Header */}
       <div className="bg-black shadow-md sticky top-0 z-20 p-6 border-b border-[#c2a661] flex items-center justify-between">
         {selectedConversation ? (
           <>
@@ -59,18 +100,15 @@ export default function MessagerieUser() {
               Retour
             </button>
             <h2 className="text-2xl font-bold text-[#c2a661]">{selectedConversation.name}</h2>
-            <div className="w-12" /> {/* espace vide pour aligner */}
+            <div className="w-12" />
           </>
         ) : (
-          <h1 className="text-4xl font-bold text-[#c2a661] text-center w-full">
-            Messagerie
-          </h1>
+          <h1 className="text-4xl font-bold text-[#c2a661] text-center w-full">Messagerie</h1>
         )}
       </div>
 
-      {/* Liste des contacts */}
       {!selectedConversation && (
-     <div className="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-[#000000] via-[#3b2702] to-[#000000]">
+        <div className="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-black via-[#3b2702] to-black">
           <div className="space-y-6">
             {conversations.map((conv) => (
               <div
@@ -83,7 +121,6 @@ export default function MessagerieUser() {
                   alt={conv.name}
                   className="w-16 h-16 rounded-full border-2 border-[#c2a661] object-cover mr-6"
                 />
-
                 <div className="flex flex-col justify-center">
                   <h2 className="text-2xl font-bold text-[#c2a661]">{conv.name}</h2>
                   <p className="text-gray-400 text-md mt-1 truncate max-w-[250px]">
@@ -96,7 +133,6 @@ export default function MessagerieUser() {
         </div>
       )}
 
-      {/* Conversation */}
       {selectedConversation && (
         <div className="flex-1 flex flex-col">
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -110,7 +146,6 @@ export default function MessagerieUser() {
             ))}
           </div>
 
-          {/* Input */}
           <div className="p-4 bg-[#1a1a1a] flex items-center gap-2 sticky bottom-0">
             <input
               type="text"
