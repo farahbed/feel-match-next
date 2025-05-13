@@ -48,6 +48,9 @@ export default function LoginPage() {
         localStorage.setItem('userEmail', data.email);
         // ✅ Stocke le token dans le navigateur
         localStorage.setItem('token', data.token);
+        // ✅ Stocke l'ID de l'utilisateur dans le navigateur
+        localStorage.setItem('userId', data.userId);
+      
       
         // ✅ Affiche le message
         setMessage('Connexion réussie !');

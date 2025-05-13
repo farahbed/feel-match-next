@@ -121,7 +121,7 @@ export default function Compte() {
           <div className="nav-links space-x-2 md:space-x-0 md:space-y-2">
             <button onClick={() => setSection('profil')} className={`block w-full p-2 rounded ${section === 'profil' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mon Profil</button>
             <button onClick={() => setSection('matchs')} className={`block w-full p-2 rounded ${section === 'matchs' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mes Matchs</button>
-            <button onClick={() => setSection('formulaire')} className={`block w-full p-2 rounded ${section === 'formulaire' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Tirage de Match</button>
+            <button onClick={() => setSection('formulaire')} className={`block w-full p-2 rounded ${section === 'formulaire' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mes Formulaires</button>
             <button onClick={() => setSection('evenements')} className={`block w-full p-2 rounded ${section === 'evenements' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Événements</button>
             <button onClick={() => setSection('achats')} className={`block w-full p-2 rounded ${section === 'achats' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Achats</button>
             <button onClick={() => setSection('parametres')} className={`block w-full p-2 rounded ${section === 'parametres' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Paramètres</button>

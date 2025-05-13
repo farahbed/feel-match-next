@@ -22,12 +22,54 @@ export default function FormulaireBlindDate() {
       [e.target.name]: e.target.value
     }));
   };
+  // Fonction pour gérer l'envoi du formulaire
+  // ✅ Récupération de l'ID utilisateur
+  // ✅ Envoi des préférences à l'API Gateway
+  // ✅ Affichage d'un message de succès ou d'erreur
+  // ✅ Gestion des erreurs
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Formulaire Blind Date soumis :", formData);
-    alert("Préférences enregistrées !");
+  
+    const email = localStorage.getItem("userEmail"); // ✅ Récupération ici
+  
+    if (!email) {
+      // Si l'utilisateur n'est pas identifié, on affiche un message d'erreur
+      alert("Erreur : utilisateur non identifié.");
+      return;
+    }
+  
+    try {
+      const response = await fetch("https://qq0238b626.execute-api.eu-west-3.amazonaws.com/dev/updatePreferences", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          preferences: formData
+        })
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert("Préférences enregistrées !");
+        console.log("Réponse Lambda :", data);
+      } else {
+        alert("Erreur : " + data.message);
+        console.error("Erreur côté Lambda :", data);
+      }
+  
+    } catch (error) {
+      console.error("Erreur fetch :", error);
+      alert("Erreur lors de l’enregistrement.");
+    }
   };
+  // ✅ Affichage du formulaire
+  // ✅ Gestion des champs de saisie
+  // ✅ Gestion des sélections
+ 
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto bg-[#1a1a1a] p-10 rounded-3xl border border-[#c2a661] shadow-2xl space-y-6">
