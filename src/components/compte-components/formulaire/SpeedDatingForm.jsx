@@ -24,10 +24,15 @@ export default function FormulaireSpeedDating() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-[#1a1a1a] p-10 rounded-3xl border border-[#c2a661] shadow-2xl space-y-6">
-      <h2 className="text-3xl font-bold text-center text-[#c2a661] mb-8 uppercase">Speed Dating – Infos rapides</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-3xl px-4 sm:px-6 md:px-10 mx-auto bg-[#1a1a1a] p-8 sm:p-10 rounded-3xl border border-[#c2a661] shadow-2xl space-y-6"
+    >
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#c2a661] mb-6 uppercase">
+        Speed Dating – Infos rapides
+      </h2>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <label className="block mb-1 text-[#c2a661] font-semibold">Âge</label>
           <input
@@ -51,7 +56,7 @@ export default function FormulaireSpeedDating() {
           />
         </div>
 
-        <div className="md:col-span-2">
+        <div className="sm:col-span-2">
           <label className="block mb-1 text-[#c2a661] font-semibold">Disponibilité</label>
           <select
             name="disponibilite"
@@ -66,7 +71,7 @@ export default function FormulaireSpeedDating() {
           </select>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="sm:col-span-2">
           <label className="block mb-1 text-[#c2a661] font-semibold">Langue préférée</label>
           <input
             type="text"
@@ -78,7 +83,7 @@ export default function FormulaireSpeedDating() {
           />
         </div>
 
-        <div className="md:col-span-2">
+        <div className="sm:col-span-2">
           <label className="block mb-1 text-[#c2a661] font-semibold">Intentions</label>
           <textarea
             name="intentions"
@@ -94,7 +99,7 @@ export default function FormulaireSpeedDating() {
       <div className="text-center mt-8">
         <button
           type="submit"
-          className="px-10 py-4 rounded-full bg-[#c2a661] text-black font-bold hover:bg-yellow-500 transition text-lg"
+          className="w-full sm:w-auto px-6 py-3 text-sm sm:text-lg rounded-full bg-[#c2a661] text-black font-bold hover:bg-yellow-500 transition"
         >
           Enregistrer
         </button>

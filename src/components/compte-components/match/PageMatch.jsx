@@ -1,5 +1,5 @@
+// ✅ PageMatch.jsx
 'use client';
-
 import { useState, useEffect } from 'react';
 import MatchFinder from './MatchFinder';
 
@@ -50,16 +50,10 @@ export default function PageMatch() {
   const [pastMatches, setPastMatches] = useState([]);
 
   useEffect(() => {
-    const lastMatchDate = localStorage.getItem('lastMatchDate');
-    const today = new Date().toISOString().split('T')[0];
-    if (lastMatchDate === today) {
-      setHasMatchedToday(true);
-    }
-
-    const current = JSON.parse(localStorage.getItem('currentMatches')) || [];
-    const past = JSON.parse(localStorage.getItem('pastMatches')) || [];
-    setCurrentMatches(current);
-    setPastMatches(past);
+    // ⚠️ Simuler pour tests
+    setHasMatchedToday(false);
+    setCurrentMatches([MOCK_PROFILES[0]]);
+    setPastMatches([MOCK_PROFILES[1]]);
   }, []);
 
   const handleSelect = (id) => {
@@ -120,13 +114,13 @@ export default function PageMatch() {
       {/* Tirage du match */}
       <section className="pt-8">
         <h2 className="text-xl font-semibold text-[#c2a661] mb-6 text-center">Tirer mon match du jour</h2>
-                <MatchFinder
-        profiles={MOCK_PROFILES}
-        onFinished={(matches) => {
+        <MatchFinder
+          profiles={MOCK_PROFILES}
+          onFinished={(matches) => {
             setSuggestions(matches);
             setHasMatchedToday(true);
             localStorage.setItem('lastMatchDate', new Date().toISOString().split('T')[0]);
-        }}
+          }}
         />
       </section>
     </div>

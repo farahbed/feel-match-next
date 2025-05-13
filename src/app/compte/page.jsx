@@ -21,17 +21,16 @@ export default function Compte() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('userRole');
-  
-    // Si pas connecté → redirige vers /login
+
     if (!token || !role) {
       router.push('/login');
       return;
     }
-  
+
     const savedName = localStorage.getItem('userName');
     const savedBio = localStorage.getItem('userBio');
     const savedPhoto = localStorage.getItem('userPhotoUrl');
-  
+
     setUser(prev => ({
       ...prev,
       name: savedName || prev.name,
@@ -74,10 +73,10 @@ export default function Compte() {
             <p className="section-text text-white">Vos achats récents ici.</p>
           </div>
         );
-        case 'parametres':
-          return <ParametresUser />; // Utilisation de ton nouveau composant
+      case 'parametres':
+        return <ParametresUser />;
       case 'message':
-        return <MessagerieUser />; // Utilisation de ton nouveau composant
+        return <MessagerieUser />;
       default:
         return null;
     }
@@ -115,21 +114,88 @@ export default function Compte() {
         </div>
       </div>
 
-      {/* Partie basse : contenu */}
-      <div className="compte-container flex flex-col md:flex-row">
-        <nav className="nav-container flex md:flex-col mb-4 md:mb-0 md:mr-8">
-          <div className="nav-links space-x-2 md:space-x-0 md:space-y-2">
-            <button onClick={() => setSection('profil')} className={`block w-full p-2 rounded ${section === 'profil' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mon Profil</button>
-            <button onClick={() => setSection('matchs')} className={`block w-full p-2 rounded ${section === 'matchs' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mes Matchs</button>
-            <button onClick={() => setSection('formulaire')} className={`block w-full p-2 rounded ${section === 'formulaire' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Mes Formulaires</button>
-            <button onClick={() => setSection('evenements')} className={`block w-full p-2 rounded ${section === 'evenements' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Événements</button>
-            <button onClick={() => setSection('achats')} className={`block w-full p-2 rounded ${section === 'achats' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Achats</button>
-            <button onClick={() => setSection('parametres')} className={`block w-full p-2 rounded ${section === 'parametres' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Paramètres</button>
-            <button onClick={() => setSection('message')} className={`block w-full p-2 rounded ${section === 'message' ? 'bg-[#c2a661] text-black' : 'bg-gray-800 text-white'}`}>Messagerie</button>
-          </div>
-        </nav>
+      {/* Partie basse : navigation + contenu */}
+      <div className="compte-container flex flex-col md:flex-row gap-6">
+      <nav className="flex flex-wrap gap-2 justify-center md:flex-col md:justify-start md:w-auto mb-6 md:mb-0 md:mr-8">
+  <button
+    onClick={() => setSection('profil')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'profil'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Mon Profil
+  </button>
 
-        <main className="flex-1 p-6 bg-black rounded-2xl">
+  <button
+    onClick={() => setSection('matchs')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'matchs'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Mes Matchs
+  </button>
+
+  <button
+    onClick={() => setSection('formulaire')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'formulaire'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Mes Formulaires
+  </button>
+
+  <button
+    onClick={() => setSection('evenements')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'evenements'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Événements
+  </button>
+
+  <button
+    onClick={() => setSection('achats')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'achats'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Achats
+  </button>
+
+  <button
+    onClick={() => setSection('parametres')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'parametres'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Paramètres
+  </button>
+
+  <button
+    onClick={() => setSection('message')}
+    className={`px-4 py-2 rounded-full font-semibold transition ${
+      section === 'message'
+        ? 'bg-[#c2a661] text-black'
+        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
+    }`}
+  >
+    Messagerie
+  </button>
+</nav>
+
+        <main className="flex-1 p-6 bg-black rounded-2xl mt-6 md:mt-0">
           {renderContent()}
         </main>
       </div>

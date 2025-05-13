@@ -1,5 +1,5 @@
+// ✅ MatchFinder.jsx avec électrogramme SVG animé
 'use client';
-
 import { useState, useEffect } from 'react';
 
 const MOCK_PROFILES = [
@@ -40,6 +40,7 @@ const MOCK_PROFILES = [
     }
   }
 ];
+
 export default function MatchFinder({ onFinished, profiles = [] }) {
   const [step, setStep] = useState(0);
   const [currentMatch, setCurrentMatch] = useState(null);
@@ -54,23 +55,24 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
   }, []);
 
   const handleFindNext = () => {
+    const fallbackProfiles = profiles.length > 0 ? profiles : MOCK_PROFILES;
     if (step >= 3) return;
     setAnimating(true);
     setTimeout(() => {
-        const match = {
-            ...profiles[step],
-            compatibility: Math.floor(Math.random() * 30) + 65
-          };
+      const match = {
+        ...fallbackProfiles[step],
+        compatibility: Math.floor(Math.random() * 30) + 65
+      };
       setCurrentMatch(match);
 
       setTimeout(() => {
-        const updatedMatches = [...matches, match];
-        setMatches(updatedMatches);
+        const updated = [...matches, match];
+        setMatches(updated);
         setAnimating(false);
         setStep(step + 1);
 
         if (step + 1 === 3 && onFinished) {
-          onFinished(updatedMatches);
+          onFinished(updated);
         }
       }, 2000);
     }, 2000);
@@ -100,10 +102,15 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
             </div>
 
             {animating && (
-              <div className="mx-4 w-24 h-12 flex items-center justify-center">
-                <div className="w-full h-1 bg-gradient-to-r from-[#c2a661] via-red-600 to-[#c2a661] animate-pulse rounded-full relative overflow-hidden">
-                  <div className="absolute w-full h-full bg-[url('/electro-line.svg')] bg-no-repeat bg-center bg-contain animate-[pulse_1s_infinite]" />
-                </div>
+              <div className="mx-4 w-28 h-12 flex items-center justify-center">
+                <svg viewBox="0 0 100 20" className="w-full h-10 text-[#c2a661] animate-pulse">
+                  <polyline
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    points="0,10 10,10 15,0 20,20 25,10 40,10 45,0 50,20 55,10 70,10 75,5 80,15 85,10 100,10"
+                  />
+                </svg>
               </div>
             )}
 
@@ -160,7 +167,11 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
                 <button
                   onClick={() => toggleSelectMatch(match.id)}
                   disabled={!chosenMatches.includes(match.id) && chosenMatches.length >= 2}
-                  className={`w-full py-2 mt-2 rounded-full font-semibold ${chosenMatches.includes(match.id) ? 'bg-red-600 text-white' : 'bg-[#c2a661] text-black hover:bg-yellow-500'} transition`}
+                  className={`w-full py-2 mt-2 rounded-full font-semibold ${
+                    chosenMatches.includes(match.id)
+                      ? 'bg-red-600 text-white'
+                      : 'bg-[#c2a661] text-black hover:bg-yellow-500'
+                  } transition`}
                 >
                   {chosenMatches.includes(match.id) ? 'Annuler' : 'Je choisis ce match'}
                 </button>
@@ -180,3 +191,4 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
     </div>
   );
 }
+
