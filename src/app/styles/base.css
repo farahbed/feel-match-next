@@ -83,3 +83,17 @@ a:hover {
 .animate-zoomIn {
   animation: zoomIn 0.8s ease-out forwards;
 }
+
+/* Animation personnalisée electrograme */
+
+@keyframes move-line {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.animate-move-line {
+  animation: move-line 4s linear infinite;
+}

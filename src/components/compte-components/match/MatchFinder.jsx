@@ -1,45 +1,6 @@
-// ✅ MatchFinder.jsx avec électrogramme SVG animé
 'use client';
-import { useState, useEffect } from 'react';
 
-const MOCK_PROFILES = [
-  {
-    id: 1,
-    name: 'Yassine',
-    age: 30,
-    phrase: 'Je suis un homme simple, qui cherche une femme sincère.',
-    image: '/default-avatar.png',
-    preferences: {
-      heart: ['Voyages', 'Cuisine', 'Spiritualité'],
-      search: ['Femme sincère', 'Valeurs partagées'],
-      duo: ['Discussions profondes', 'Aventures à deux']
-    }
-  },
-  {
-    id: 2,
-    name: 'Imane',
-    age: 28,
-    phrase: 'Prêt(e) à construire une belle histoire à deux.',
-    image: '/default-avatar.png',
-    preferences: {
-      heart: ['Lecture', 'Randonnée', 'Traditions'],
-      search: ['Homme stable', 'Pratiquant'],
-      duo: ['Moments simples', 'Échanges sincères']
-    }
-  },
-  {
-    id: 3,
-    name: 'Mehdi',
-    age: 32,
-    phrase: 'L’amour commence par la compatibilité.',
-    image: '/default-avatar.png',
-    preferences: {
-      heart: ['Design', 'Sport', 'Spiritualité'],
-      search: ['Femme douce', 'Respectueuse'],
-      duo: ['Activités créatives', 'Sport à deux']
-    }
-  }
-];
+import { useState, useEffect } from 'react';
 
 export default function MatchFinder({ onFinished, profiles = [] }) {
   const [step, setStep] = useState(0);
@@ -55,24 +16,23 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
   }, []);
 
   const handleFindNext = () => {
-    const fallbackProfiles = profiles.length > 0 ? profiles : MOCK_PROFILES;
     if (step >= 3) return;
     setAnimating(true);
     setTimeout(() => {
       const match = {
-        ...fallbackProfiles[step],
+        ...profiles[step],
         compatibility: Math.floor(Math.random() * 30) + 65
       };
       setCurrentMatch(match);
 
       setTimeout(() => {
-        const updated = [...matches, match];
-        setMatches(updated);
+        const updatedMatches = [...matches, match];
+        setMatches(updatedMatches);
         setAnimating(false);
         setStep(step + 1);
 
         if (step + 1 === 3 && onFinished) {
-          onFinished(updated);
+          onFinished(updatedMatches);
         }
       }, 2000);
     }, 2000);
@@ -96,25 +56,63 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
         <div className="flex flex-col items-center justify-center space-y-6 h-56">
           {animating && <p className="text-sm text-yellow-400 animate-pulse">Recherche de compatibilité...</p>}
 
-          <div className="relative flex items-center justify-center w-full h-32">
-            <div className="w-28 h-28 rounded-full border-4 border-[#c2a661] bg-black shadow-lg flex items-center justify-center">
+          <div className="relative flex items-center justify-center w-full h-32 gap-1">
+            {/* Cercle utilisateur */}
+            <div className="w-28 h-28 rounded-full border-4 border-[#c2a661] bg-black shadow-lg flex items-center justify-center z-10">
               <img src={userPhoto} alt="you" className="w-20 h-20 rounded-full" />
             </div>
 
+            {/* ECG + cœur animé */}
             {animating && (
-              <div className="mx-4 w-28 h-12 flex items-center justify-center">
-                <svg viewBox="0 0 100 20" className="w-full h-10 text-[#c2a661] animate-pulse">
-                  <polyline
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    points="0,10 10,10 15,0 20,20 25,10 40,10 45,0 50,20 55,10 70,10 75,5 80,15 85,10 100,10"
-                  />
+              <div className="mx-1 w-52 h-24 overflow-hidden relative z-0">
+                <div className="absolute top-0 left-0 w-[200%] h-full flex animate-move-line">
+                  {/* ECG visible 2x pour effet fluide */}
+                  {[1, 2].map((_, i) => (
+                    <svg key={i} viewBox="0 0 260 100" preserveAspectRatio="none" className="w-1/2 h-full">
+                      <path
+                        d="M0,50 
+                          L20,50 
+                          L30,10 
+                          L40,90 
+                          L50,30 
+                          C60,20 70,20 80,50 
+                          C90,80 110,80 120,50 
+                          C130,20 140,20 150,50 
+                          L160,70 
+                          L170,30 
+                          L180,60 
+                          L190,40 
+                          L200,50 
+                          L210,10 
+                          L220,90 
+                          L230,50 
+                          L250,50"
+                        fill="none"
+                        stroke="#e3342f"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Cœur au centre devant */}
+                <svg
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 animate-pulse drop-shadow-[0_0_8px_#c2a661] z-10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#c2a661"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20.8 4.6c-1.8-1.6-4.6-1.5-6.4.3L12 7.3l-2.4-2.4C7.8 3.1 5 3 3.2 4.6c-2 1.8-2.1 4.9-.2 6.8l8.2 8.2c.3.3.8.3 1.1 0l8.2-8.2c1.9-1.9 1.8-5-.2-6.8z" />
                 </svg>
               </div>
             )}
 
-            <div className="w-28 h-28 rounded-full border-4 border-red-600 bg-black shadow-lg flex items-center justify-center">
+            {/* Cercle du match */}
+            <div className="w-28 h-28 rounded-full border-4 border-[#c2a661] bg-black shadow-lg flex items-center justify-center z-10">
               {currentMatch && (
                 <img src={currentMatch.image} alt={currentMatch.name} className="w-20 h-20 rounded-full" />
               )}
@@ -132,6 +130,7 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
         </button>
       )}
 
+      {/* Affichage des résultats + sélection */}
       {matches.length > 0 && (
         <div className="flex flex-col items-center space-y-6">
           {step === 3 && (
@@ -151,27 +150,14 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
                 <p className="text-sm italic mt-1 mb-2">{match.phrase}</p>
                 <p className="text-sm text-yellow-400 font-bold mb-2">Compatibilité : {match.compatibility}%</p>
                 <div className="mt-4 space-y-2 text-xs text-gray-300 text-left">
-                  <div className="flex gap-1 items-start">
-                    <span className="text-[#c2a661]">❤</span>
-                    <span>{match.preferences?.heart?.join(', ')}</span>
-                  </div>
-                  <div className="flex gap-1 items-start">
-                    <span className="text-[#c2a661]">🔍</span>
-                    <span>{match.preferences?.search?.join(', ')}</span>
-                  </div>
-                  <div className="flex gap-1 items-start">
-                    <span className="text-[#c2a661]">👩👨</span>
-                    <span>{match.preferences?.duo?.join(', ')}</span>
-                  </div>
+                  <div className="flex gap-1 items-start"><span className="text-[#c2a661]">❤</span><span>{match.preferences?.heart?.join(', ')}</span></div>
+                  <div className="flex gap-1 items-start"><span className="text-[#c2a661]">🔍</span><span>{match.preferences?.search?.join(', ')}</span></div>
+                  <div className="flex gap-1 items-start"><span className="text-[#c2a661]">👩👨</span><span>{match.preferences?.duo?.join(', ')}</span></div>
                 </div>
                 <button
                   onClick={() => toggleSelectMatch(match.id)}
                   disabled={!chosenMatches.includes(match.id) && chosenMatches.length >= 2}
-                  className={`w-full py-2 mt-2 rounded-full font-semibold ${
-                    chosenMatches.includes(match.id)
-                      ? 'bg-red-600 text-white'
-                      : 'bg-[#c2a661] text-black hover:bg-yellow-500'
-                  } transition`}
+                  className={`w-full py-2 mt-2 rounded-full font-semibold ${chosenMatches.includes(match.id) ? 'bg-red-600 text-white' : 'bg-[#c2a661] text-black hover:bg-yellow-500'} transition`}
                 >
                   {chosenMatches.includes(match.id) ? 'Annuler' : 'Je choisis ce match'}
                 </button>
@@ -191,4 +177,3 @@ export default function MatchFinder({ onFinished, profiles = [] }) {
     </div>
   );
 }
-
