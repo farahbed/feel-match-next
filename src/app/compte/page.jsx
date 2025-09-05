@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Profil from '../../components/page-compte/Profil';
-import MessagerieUser from '@/components/page-compte/Messagerie';
-import ParametresUser from '@/components/page-compte/ParametresUser';
-import PageMatch from '@/components/page-compte/match/PageMatch';
-import MatchForm from '@/components/page-compte/formulaire/MatchForm';
+import Profil from '@/components/compte/Profil';
+import MessagerieUser from '@/components/compte/Messagerie';
+import ParametresUser from '@/components/compte/ParametresUser';
+import PageMatch from '@/components/match/PageMatch';
+import MatchForm from '@/components/formulaire/MatchForm';
 import '@/components/Header';
 
 export default function Compte() {

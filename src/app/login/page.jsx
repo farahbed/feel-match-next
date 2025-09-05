@@ -13,14 +13,14 @@ export default function LoginPage() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const registerParam = urlParams.get('register');
-    setIsLogin(registerParam !== 'true'); // true => login / false => register
+    setIsLogin(registerParam !== 'true');
   }, []);
 
   const handleToggle = () => {
     const newState = !isLogin;
     setIsLogin(newState);
     router.push(newState ? '/login?register=false' : '/login?register=true');
-    setMessage(null); // réinitialiser les messages lors du switch
+    setMessage(null);
   };
 
   const handleChange = (e) => {
@@ -43,28 +43,15 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        // ✅ Stocke le rôle et l'email dans le navigateur
         localStorage.setItem('userRole', data.role);
         localStorage.setItem('userEmail', data.email);
-        // ✅ Stocke le token dans le navigateur
         localStorage.setItem('token', data.token);
-        // ✅ Stocke l'ID de l'utilisateur dans le navigateur
         localStorage.setItem('userId', data.userId);
-      
-      
-        // ✅ Affiche le message
         setMessage('Connexion réussie !');
-      
-        // ✅ Redirige selon le rôle
-        if (data.role === 'admin') {
-          setTimeout(() => {
-            window.location.href = '/admin';
-          }, 1500);
-        } else {
-          setTimeout(() => {
-            window.location.href = '/compte';
-          }, 1500);
-        }
+
+        setTimeout(() => {
+          window.location.href = data.role === 'admin' ? '/admin' : '/compte';
+        }, 1500);
       } else {
         setMessage(data.message || 'Erreur lors de la connexion');
       }
@@ -74,41 +61,43 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-page">
-      <div className="box">
-        <h2 className="text-center text-3xl font-bold mb-6 uppercase">
+    <div className="min-h-screen flex items-center justify-center bg-black px-4">
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md text-center">
+        <h2 className="text-3xl font-bold mb-6 text-black uppercase">
           {isLogin ? 'Connexion' : 'Inscription'}
         </h2>
 
         {isLogin ? (
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label className="text-sm font-semibold mb-1 block">Email</label>
+            <div className="flex flex-col gap-2 text-left">
+              <label htmlFor="email" className="text-sm font-semibold">Email</label>
               <input
                 name="email"
                 type="email"
+                id="email"
                 placeholder="Email"
                 required
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-white text-black border border-gray-300"
+                className="w-full p-3 rounded-lg bg-white text-black border-2 border-gray-300 focus:outline-none focus:border-gold"
               />
             </div>
 
-            <div className="form-group">
-              <label className="text-sm font-semibold mb-1 block">Mot de passe</label>
+            <div className="flex flex-col gap-2 text-left">
+              <label htmlFor="password" className="text-sm font-semibold">Mot de passe</label>
               <input
                 name="password"
                 type="password"
+                id="password"
                 placeholder="Mot de passe"
                 required
                 onChange={handleChange}
-                className="w-full p-3 rounded-lg bg-white text-black border border-gray-300"
+                className="w-full p-3 rounded-lg bg-white text-black border-2 border-gray-300 focus:outline-none focus:border-gold"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-black text-yellow-400 hover:bg-red-600 hover:text-white py-3 rounded-lg font-bold transition duration-300"
+              className="bg-black text-gold hover:bg-gold hover:text-black border-2 border-gold py-3 rounded-lg font-bold transition duration-300"
             >
               Se connecter
             </button>
@@ -121,7 +110,7 @@ export default function LoginPage() {
           <p className="text-center mt-4 text-red-500">{message}</p>
         )}
 
-        <p className="text-center mt-6 text-sm text-yellow-400">
+        <p className="text-center mt-6 text-sm text-yellow-500">
           {isLogin ? 'Pas encore de compte ?' : 'Déjà inscrit ?'}{' '}
           <button
             onClick={handleToggle}
