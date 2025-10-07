@@ -1,76 +1,114 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import Profil from '@/components/compte/Profil';
-import MessagerieUser from '@/components/compte/Messagerie';
-import ParametresUser from '@/components/compte/ParametresUser';
-import PageMatch from '@/components/match/PageMatch';
-import MatchForm from '@/components/formulaire/MatchForm';
-import '@/components/Header';
+
+import CompteHeader from '../../components/compte/CompteHeader';
+import Profil from '../../components/compte/Profil';
+import MessagerieUser from '../../components/compte/Messagerie';
+import ParametresUser from '../../components/compte/ParametresUser';
+import PageMatch from '../../components/match/PageMatch';
+import MatchForm from '../../components/formulaire/MatchForm';
+
+const readFileAsDataURL = (file) =>
+  new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
 
 export default function Compte() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  // ⚙️ section persistée
   const [section, setSection] = useState('profil');
+
   const [user, setUser] = useState({
     name: "Nom d'utilisateur",
     photoUrl: '',
     bio: "Je suis une passionnée de voyages et de découvertes culinaires.",
   });
 
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('userRole');
-
-    if (!token || !role) {
-      router.push('/login');
-      return;
-    }
-
+  // -------- Helpers
+  const refreshUser = useCallback(() => {
     const savedName = localStorage.getItem('userName');
     const savedBio = localStorage.getItem('userBio');
-    const savedPhoto = localStorage.getItem('userPhotoUrl');
-
-    setUser(prev => ({
+    let savedPhoto = localStorage.getItem('userPhotoUrl');
+    if (savedPhoto && savedPhoto.startsWith('blob:')) {
+      savedPhoto = '';
+      localStorage.removeItem('userPhotoUrl');
+    }
+    setUser((prev) => ({
       ...prev,
       name: savedName || prev.name,
       bio: savedBio || prev.bio,
-      photoUrl: savedPhoto || prev.photoUrl
+      photoUrl: savedPhoto || prev.photoUrl,
     }));
   }, []);
 
-  const handleProfilePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const newPhotoUrl = URL.createObjectURL(file);
-      setUser((prevUser) => ({
-        ...prevUser,
-        photoUrl: newPhotoUrl,
-      }));
-      localStorage.setItem('userPhotoUrl', newPhotoUrl);
-    }
+  const handleProfilePhotoChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const dataUrl = await readFileAsDataURL(file);
+    setUser((prev) => ({ ...prev, photoUrl: dataUrl }));
+    localStorage.setItem('userPhotoUrl', dataUrl);
   };
 
+  // -------- Mount (client‐only) + auth guard
+  useEffect(() => {
+    setMounted(true);
+
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('userRole');
+    if (!token || !role) {
+      // replace pour éviter l’historique back
+      router.replace('/login');
+      return;
+    }
+
+    // section sauvegardée
+    const savedSection = localStorage.getItem('compteSection');
+    if (savedSection) setSection(savedSection);
+
+    refreshUser();
+
+    // écoute changements LS (nom/bio/photo depuis Profil)
+    const onStorage = (e) => {
+      if (['userName', 'userBio', 'userPhotoUrl'].includes(e.key)) refreshUser();
+      if (e.key === 'compteSection' && e.newValue) setSection(e.newValue);
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, [router, refreshUser]);
+
+  // Persister l’onglet
+  useEffect(() => {
+    if (!mounted) return;
+    localStorage.setItem('compteSection', section);
+  }, [section, mounted]);
+
+  // -------- Render content
   const renderContent = () => {
     switch (section) {
       case 'profil':
-        return <Profil />;
+        return <Profil onSaved={refreshUser} />; // avatar rendu DANS Profil
       case 'matchs':
         return <PageMatch />;
       case 'evenements':
         return (
-          <div className="card bg-black p-6 rounded-lg shadow-lg border-2 border-[#c2a661] hover:border-yellow-500 transition-all duration-300">
-            <h2 className="section-title text-[#c2a661] text-3xl">Événements</h2>
-            <p className="section-text text-white">Vos événements à venir ici.</p>
+          <div className="rounded-xl border border-[#262930] bg-[#1B1D22] p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-[#E7E7EA] mb-1">Événements</h2>
+            <p className="text-[#A8AAB2]">Vos événements à venir ici.</p>
           </div>
         );
       case 'formulaire':
         return <MatchForm />;
       case 'achats':
         return (
-          <div className="card bg-black p-6 rounded-lg shadow-lg border-2 border-[#c2a661] hover:border-yellow-500 transition-all duration-300">
-            <h2 className="section-title text-[#c2a661] text-3xl">Achats</h2>
-            <p className="section-text text-white">Vos achats récents ici.</p>
+          <div className="rounded-xl border border-[#262930] bg-[#1B1D22] p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-[#E7E7EA] mb-1">Achats</h2>
+            <p className="text-[#A8AAB2]">Vos achats récents ici.</p>
           </div>
         );
       case 'parametres':
@@ -82,122 +120,55 @@ export default function Compte() {
     }
   };
 
+  const tabs = [
+    ['profil', 'Mon Profil'],
+    ['matchs', 'Mes Matchs'],
+    ['formulaire', 'Mes Formulaires'],
+    ['evenements', 'Événements'],
+    ['achats', 'Achats'],
+    ['parametres', 'Paramètres'],
+    ['message', 'Messagerie'],
+  ];
+
+  // Évite un flash/hydration mismatch si redirect
+  if (!mounted) return null;
+
   return (
-    <div className="compte-page bg-black p-8 min-h-screen">
-      {/* Partie haute : avatar + nom + bio */}
-      <div className="profil-header mb-6 text-center">
-        <div className="photo-container mb-4 relative inline-block">
-          <img
-            src={user.photoUrl || '/default-avatar.png'}
-            alt="Photo de profil"
-            className="profil-photo w-24 h-24 rounded-full border-4 border-[#c2a661]"
-            onClick={() => document.getElementById('photo-upload').click()}
-          />
-          <button
-            className="absolute bottom-0 right-0 bg-[#c2a661] text-black rounded-full p-1 text-sm"
-            onClick={() => document.getElementById('photo-upload').click()}
-          >
-            ✏️
-          </button>
-          <input
-            type="file"
-            id="photo-upload"
-            accept="image/*"
-            onChange={handleProfilePhotoChange}
-            style={{ display: 'none' }}
-          />
+    <div className="min-h-screen">
+      <div className="mx-auto max-w-6xl px-4 py-6">
+        <CompteHeader
+          user={user}
+          onPhotoChange={handleProfilePhotoChange}
+          showAvatar={section !== 'profil'}
+          showDetails={section !== 'profil'}
+        />
+
+        <div className="flex flex-col gap-6 md:flex-row">
+          <nav className="flex flex-wrap gap-2 md:flex-col md:w-60">
+            {tabs.map(([key, label]) => {
+              const active = section === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setSection(key)}
+                  aria-current={active ? 'page' : undefined}
+                  className={[
+                    'px-4 py-2 text-sm font-medium rounded-md transition border',
+                    active
+                      ? 'bg-[#6F74EE] text-white border-transparent shadow'
+                      : 'bg-[#1B1D22] text-[#E7E7EA] border-[#262930] hover:bg-[#20232A]',
+                  ].join(' ')}
+                >
+                  {label}
+                </button>
+              );
+            })}
+          </nav>
+
+          <main className="flex-1 rounded-xl border border-[#262930] bg-[#15171B] p-4 shadow-sm">
+            {renderContent()}
+          </main>
         </div>
-
-        <div className="profil-bio">
-          <h2 className="text-2xl text-[#c2a661]">{user.name}</h2>
-          <p className="text-white">{user.bio || "Aucune bio renseignée."}</p>
-        </div>
-      </div>
-
-      {/* Partie basse : navigation + contenu */}
-      <div className="compte-container flex flex-col md:flex-row gap-6">
-      <nav className="flex flex-wrap gap-2 justify-center md:flex-col md:justify-start md:w-auto mb-6 md:mb-0 md:mr-8">
-  <button
-    onClick={() => setSection('profil')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'profil'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Mon Profil
-  </button>
-
-  <button
-    onClick={() => setSection('matchs')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'matchs'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Mes Matchs
-  </button>
-
-  <button
-    onClick={() => setSection('formulaire')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'formulaire'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Mes Formulaires
-  </button>
-
-  <button
-    onClick={() => setSection('evenements')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'evenements'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Événements
-  </button>
-
-  <button
-    onClick={() => setSection('achats')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'achats'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Achats
-  </button>
-
-  <button
-    onClick={() => setSection('parametres')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'parametres'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Paramètres
-  </button>
-
-  <button
-    onClick={() => setSection('message')}
-    className={`px-4 py-2 rounded-full font-semibold transition ${
-      section === 'message'
-        ? 'bg-[#c2a661] text-black'
-        : 'bg-[#1a1a1a] text-white hover:bg-[#2a2a2a] hover:text-[#c2a661]'
-    }`}
-  >
-    Messagerie
-  </button>
-</nav>
-
-        <main className="flex-1 p-6 bg-black rounded-2xl mt-6 md:mt-0">
-          {renderContent()}
-        </main>
       </div>
     </div>
   );
