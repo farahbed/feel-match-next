@@ -186,3 +186,57 @@ button:hover, .cta-button:hover {
 .card p {
   margin: 0;
 }
+
+/* Effet grain de pellicule */
+.film-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("https://grainy-gradients.vercel.app/noise.png");
+  mix-blend-mode: soft-light;
+  opacity: 0.28; /* augmente si tu veux plus fort (0.35, 0.4 etc.) */
+  animation: grainMove 1.6s steps(10) infinite;
+}
+
+/* Effet flicker vieux film */
+.film-flicker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.06);
+  mix-blend-mode: multiply;
+  animation: flicker 0.12s infinite;
+}
+
+@keyframes grainMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-12px, 8px);
+  }
+  40% {
+    transform: translate(8px, -10px);
+  }
+  60% {
+    transform: translate(-6px, -4px);
+  }
+  80% {
+    transform: translate(4px, 6px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.12;
+  }
+  100% {
+    opacity: 0.03;
+  }
+}
