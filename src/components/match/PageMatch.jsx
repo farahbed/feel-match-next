@@ -1,7 +1,9 @@
-// ✅ PageMatch.jsx — version simplifiée (sans anciens matchs)
 'use client';
+
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import MatchFinder from './MatchFinder';
+import { createConversationsFromSelected } from '@/lib/storage';
 
 const GOLD = '#c2a661';
 const SURFACE = '#15171b';
@@ -51,28 +53,61 @@ const MOCK_PROFILES = [
 ];
 
 export default function PageMatch() {
+  const router = useRouter();
+
   const [hasMatchedToday, setHasMatchedToday] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [currentMatches, setCurrentMatches] = useState([]);
 
   useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+
     try {
       const savedCurrent = JSON.parse(localStorage.getItem('currentMatches') || '[]');
-      setCurrentMatches(savedCurrent.length ? savedCurrent : [MOCK_PROFILES[0]]);
+      setCurrentMatches(Array.isArray(savedCurrent) ? savedCurrent : []);
+
       const last = localStorage.getItem('lastMatchDate');
-      if (last) setHasMatchedToday(true);
+      setHasMatchedToday(last === today);
     } catch {
-      setCurrentMatches([MOCK_PROFILES[0]]);
+      setCurrentMatches([]);
+      setHasMatchedToday(false);
     }
   }, []);
 
   const onFinished = (matches) => {
+    const today = new Date().toISOString().split('T')[0];
     setSuggestions(matches);
     setHasMatchedToday(true);
-    localStorage.setItem('lastMatchDate', new Date().toISOString().split('T')[0]);
+    localStorage.setItem('lastMatchDate', today);
   };
 
-  // UI subcomponents
+  // ✅ LA SEULE version de onValidate (on supprime toutes les autres)
+  const onValidate = (selected) => {
+    if (!Array.isArray(selected) || selected.length === 0) return;
+
+    // 1) créer les conversations
+    createConversationsFromSelected(selected);
+
+    // 2) ajouter aux matchs en cours
+    const merged = [...currentMatches];
+    selected.forEach((p) => {
+      const exists = merged.some((x) =>
+        x?.id && p?.id ? x.id === p.id : x?.name === p?.name
+      );
+      if (!exists) merged.push(p);
+    });
+
+    setCurrentMatches(merged);
+    localStorage.setItem('currentMatches', JSON.stringify(merged));
+
+    // 3) optionnel : vider les suggestions
+    setSuggestions([]);
+
+    // 4) redirection vers la suite
+    router.push('/conversations');
+  };
+
+  // UI
   const Card = ({ children, className = '' }) => (
     <div
       className={`rounded-2xl border shadow-sm ${className}`}
@@ -131,7 +166,6 @@ export default function PageMatch() {
 
   return (
     <div className="min-h-screen p-6 space-y-12">
-      {/* En-tête principale */}
       <header className="text-center space-y-2">
         <h1 className="text-3xl font-extrabold">
           <span
@@ -144,11 +178,17 @@ export default function PageMatch() {
         <p className="text-sm" style={{ color: MUTED }}>
           Un tirage élégant, des rencontres authentiques ✨
         </p>
+
+        {hasMatchedToday && (
+          <p className="text-xs" style={{ color: MUTED }}>
+            Tu as déjà fait ton tirage aujourd’hui.
+          </p>
+        )}
       </header>
 
-      {/* Matchs en cours */}
       <section>
         <Title>Matchs en cours</Title>
+
         {currentMatches.length === 0 ? (
           <Card className="p-6 text-center">
             <p style={{ color: MUTED }}>Tu n’as pas encore de match actif.</p>
@@ -162,18 +202,15 @@ export default function PageMatch() {
         )}
       </section>
 
-      {/* Tirage du match */}
       <section className="pt-4">
         <Title>Tirer mon match du jour</Title>
         <Card className="p-6">
           <MatchFinder
             profiles={MOCK_PROFILES}
             onFinished={onFinished}
-            rounds={3}
-            maxPicks={2}
+            onValidate={onValidate}
           />
 
-          {/* Résumé des suggestions tirées */}
           {suggestions.length > 0 && (
             <div className="mt-8">
               <h3 className="text-lg font-semibold mb-3" style={{ color: TEXT }}>
