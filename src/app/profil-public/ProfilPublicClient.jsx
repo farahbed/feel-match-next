@@ -184,7 +184,9 @@ export default function ProfilPublicClient() {
                     src={src}
                     alt={`photo ${index + 1}`}
                     className="h-40 w-full object-cover"
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
                   />
                 </div>
               ))}
@@ -211,7 +213,11 @@ function Card({ children }) {
 }
 
 function SectionTitle({ children }) {
-  return <h3 className="mb-3 text-lg font-semibold" style={{ color: TEXT }}>{children}</h3>;
+  return (
+    <h3 className="mb-3 text-lg font-semibold" style={{ color: TEXT }}>
+      {children}
+    </h3>
+  );
 }
 
 function InfoItem({ label, value }) {
@@ -220,8 +226,12 @@ function InfoItem({ label, value }) {
       className="flex items-center justify-between rounded-md px-3 py-2"
       style={{ background: '#0f1115', border: '1px solid ' + BORDER }}
     >
-      <span className="text-sm" style={{ color: MUTED }}>{label}</span>
-      <span className="text-sm font-medium" style={{ color: TEXT }}>{value || '—'}</span>
+      <span className="text-sm" style={{ color: MUTED }}>
+        {label}
+      </span>
+      <span className="text-sm font-medium" style={{ color: TEXT }}>
+        {value || '—'}
+      </span>
     </li>
   );
 }
