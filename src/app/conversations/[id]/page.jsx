@@ -1,106 +1,207 @@
+// src/app/conversations/[id]/page.jsx
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { addMessage, getConversationById } from '@/lib/storage';
 
 const GOLD = '#c2a661';
-const BG = '#0f1115';
-const SURFACE = '#15171B';
+const SURFACE = '#15171b';
+const SURFACE_2 = '#1b1d22';
 const BORDER = '#262930';
 const TEXT = '#E7E7EA';
 const MUTED = '#A8AAB2';
 
-export default function ConversationDetail() {
-  const router = useRouter();
-  const params = useParams();
-  const id = useMemo(() => String(params?.id || ''), [params]);
+function ProfileModal({ open, onClose, match }) {
+  if (!open) return null;
+  const m = match || {};
 
-  const [conv, setConv] = useState(null);
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.6)' }}
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-lg rounded-2xl border p-6"
+        style={{ background: SURFACE, borderColor: BORDER }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center gap-4">
+          <img
+            src={m.image || '/default-avatar.png'}
+            alt={m.name || 'Profil'}
+            className="w-20 h-20 rounded-full object-cover border"
+            style={{ borderColor: GOLD }}
+            onError={(e) => { e.currentTarget.src = '/default-avatar.png'; }}
+          />
+          <div className="min-w-0">
+            <div className="text-xl font-extrabold" style={{ color: GOLD }}>
+              {m.name || 'Profil'}{m.age ? `, ${m.age} ans` : ''}
+            </div>
+            <div className="text-sm" style={{ color: MUTED }}>
+              {m.phrase || '—'}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 space-y-2 text-sm">
+          {!!m.preferences?.heart?.length && (
+            <div>❤ {m.preferences.heart.join(', ')}</div>
+          )}
+          {!!m.preferences?.search?.length && (
+            <div>🔍 {m.preferences.search.join(', ')}</div>
+          )}
+          {!!m.preferences?.duo?.length && (
+            <div>👩👨 {m.preferences.duo.join(', ')}</div>
+          )}
+        </div>
+
+        <div className="mt-6 flex gap-2 justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-full font-semibold border"
+            style={{ borderColor: BORDER, color: TEXT }}
+          >
+            Fermer
+          </button>
+
+          <Link
+            href={`/profil-public?id=${encodeURIComponent(m.id ?? '')}`}
+            className="px-4 py-2 rounded-full font-bold"
+            style={{ background: GOLD, color: '#15171B' }}
+          >
+            Profil complet
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ConversationByIdPage() {
+  const params = useParams();
+  const id = useMemo(() => (typeof params?.id === 'string' ? params.id : ''), [params]);
+
+  const [conversation, setConversation] = useState(null);
   const [text, setText] = useState('');
+  const [openProfile, setOpenProfile] = useState(false);
 
   useEffect(() => {
     if (!id) return;
-    setConv(getConversationById(id));
+    setConversation(getConversationById(id));
   }, [id]);
 
-  const send = () => {
-    const t = text.trim();
-    if (!t) return;
-    const msg = addMessage(id, { from: 'me', text: t });
+  const m = conversation?.match || {};
+
+  const handleSend = () => {
+    if (!id) return;
+    const msg = addMessage(id, { role: 'me', text });
     if (!msg) return;
-    setConv(getConversationById(id));
+
     setText('');
+    setConversation(getConversationById(id)); // refresh depuis storage
   };
 
-  if (!conv) {
+  if (!conversation) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: BG, color: TEXT }}>
-        <div className="rounded-xl border px-6 py-4 text-sm" style={{ background: SURFACE, borderColor: BORDER, color: MUTED }}>
-          Conversation introuvable.
-        </div>
+      <div className="min-h-screen p-6" style={{ color: TEXT }}>
+        <p style={{ color: MUTED }}>Conversation introuvable.</p>
+        <Link href="/conversations" style={{ color: GOLD }} className="underline">
+          Retour aux conversations
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen" style={{ background: BG, color: TEXT }}>
-      <div className="mx-auto max-w-3xl px-4 py-6">
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={() => router.push('/conversations')}
-            className="px-4 py-2 rounded-full font-semibold border"
-            style={{ borderColor: GOLD, color: GOLD }}
-          >
-            ← Conversations
-          </button>
-          <div className="font-semibold" style={{ color: GOLD }}>
-            {conv.title}
+    <div className="min-h-screen p-6" style={{ color: TEXT }}>
+      {/* Header profil (toujours visible) */}
+      <header
+        className="rounded-2xl border p-4 mb-6 flex items-center gap-4"
+        style={{ background: SURFACE, borderColor: BORDER }}
+      >
+        <img
+          src={m.image || '/default-avatar.png'}
+          alt={m.name || 'Profil'}
+          className="w-16 h-16 rounded-full object-cover border"
+          style={{ borderColor: GOLD }}
+          onError={(e) => { e.currentTarget.src = '/default-avatar.png'; }}
+        />
+
+        <div className="flex-1 min-w-0">
+          <div className="font-extrabold truncate" style={{ color: GOLD }}>
+            {m.name || 'Profil'}{m.age ? `, ${m.age} ans` : ''}
+          </div>
+          <div className="text-sm truncate" style={{ color: MUTED }}>
+            {m.phrase || '—'}
+          </div>
+
+          <div className="mt-3 flex gap-2 flex-wrap">
+            <button
+              onClick={() => setOpenProfile(true)}
+              className="px-4 py-2 rounded-full font-semibold border"
+              style={{ borderColor: GOLD, color: GOLD }}
+            >
+              Voir le profil complet
+            </button>
+
+            <Link
+              href="/conversations"
+              className="px-4 py-2 rounded-full font-semibold"
+              style={{ background: SURFACE_2, color: TEXT, border: `1px solid ${BORDER}` }}
+            >
+              Retour
+            </Link>
           </div>
         </div>
+      </header>
 
-        {/* messages */}
-        <div className="rounded-xl border p-4 space-y-3" style={{ background: SURFACE, borderColor: BORDER }}>
-          {(conv.messages || []).map((m) => (
-            <div key={m.id} className={`flex ${m.from === 'me' ? 'justify-end' : 'justify-start'}`}>
-              <div
-                className="max-w-[80%] rounded-2xl px-4 py-2 text-sm"
-                style={{
-                  background: m.from === 'me' ? GOLD : '#0f1115',
-                  color: m.from === 'me' ? '#15171B' : TEXT,
-                  border: m.from === 'me' ? 'none' : `1px solid ${BORDER}`,
-                }}
-              >
-                <div>{m.text}</div>
-                <div className="text-[11px] mt-1" style={{ color: m.from === 'me' ? '#15171B' : MUTED, opacity: 0.8 }}>
-                  {m.at ? new Date(m.at).toLocaleString() : ''}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* input */}
-        <div className="mt-4 flex gap-2">
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Écris un message…"
-            className="flex-1 rounded-xl px-4 py-3 outline-none border"
-            style={{ background: '#0f1115', borderColor: BORDER, color: TEXT }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') send();
+      {/* Messages */}
+      <div
+        className="rounded-2xl border p-4 mb-4 space-y-3"
+        style={{ background: SURFACE, borderColor: BORDER }}
+      >
+        {(conversation.messages || []).map((msg) => (
+          <div
+            key={msg.id}
+            className="rounded-xl p-3"
+            style={{
+              background: msg.role === 'me' ? SURFACE_2 : 'rgba(194,166,97,0.08)',
+              border: `1px solid ${BORDER}`,
             }}
-          />
-          <button
-            onClick={send}
-            className="px-5 py-3 rounded-xl font-bold"
-            style={{ background: GOLD, color: '#15171B' }}
           >
-            Envoyer
-          </button>
-        </div>
+            <div className="text-xs mb-1" style={{ color: MUTED }}>
+              {msg.role === 'me' ? 'Moi' : msg.role === 'system' ? 'Système' : m.name || 'Match'}
+            </div>
+            <div className="text-sm">{msg.text}</div>
+          </div>
+        ))}
       </div>
+
+      {/* Input */}
+      <div
+        className="rounded-2xl border p-4 flex gap-2"
+        style={{ background: SURFACE, borderColor: BORDER }}
+      >
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Écris un message…"
+          className="flex-1 rounded-xl px-4 py-3 outline-none"
+          style={{ background: SURFACE_2, border: `1px solid ${BORDER}`, color: TEXT }}
+        />
+        <button
+          onClick={handleSend}
+          className="px-5 py-3 rounded-xl font-bold"
+          style={{ background: GOLD, color: '#15171B' }}
+        >
+          Envoyer
+        </button>
+      </div>
+
+      <ProfileModal open={openProfile} onClose={() => setOpenProfile(false)} match={m} />
     </div>
   );
 }

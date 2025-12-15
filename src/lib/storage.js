@@ -1,36 +1,32 @@
 // src/lib/storage.js
+// Stockage local simple pour la démo (localStorage)
 
 const LAST_MATCH_DATE_KEY = 'lastMatchDate';
-const CONVERSATIONS_KEY = 'conversations_v1';
+const CONVERSATIONS_KEY = 'conversations_v1'; // [{id, createdAt, match, messages:[] }]
 
-export function todayISO() {
+export function getToday() {
   return new Date().toISOString().split('T')[0];
 }
 
-/** Match quotidien */
 export function hasMatchedToday() {
   if (typeof window === 'undefined') return false;
-  try {
-    return localStorage.getItem(LAST_MATCH_DATE_KEY) === todayISO();
-  } catch {
-    return false;
-  }
+  const last = localStorage.getItem(LAST_MATCH_DATE_KEY);
+  return last === getToday();
 }
 
 export function markMatchedToday() {
   if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(LAST_MATCH_DATE_KEY, todayISO());
-  } catch {}
+  localStorage.setItem(LAST_MATCH_DATE_KEY, getToday());
 }
 
-/** Conversations */
+// -------- Conversations --------
+
 export function getConversations() {
   if (typeof window === 'undefined') return [];
   try {
     const raw = localStorage.getItem(CONVERSATIONS_KEY);
-    const list = raw ? JSON.parse(raw) : [];
-    return Array.isArray(list) ? list : [];
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
@@ -38,9 +34,7 @@ export function getConversations() {
 
 export function saveConversations(list) {
   if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(CONVERSATIONS_KEY, JSON.stringify(list));
-  } catch {}
+  localStorage.setItem(CONVERSATIONS_KEY, JSON.stringify(list));
 }
 
 export function getConversationById(id) {
@@ -48,70 +42,63 @@ export function getConversationById(id) {
   return list.find((c) => c.id === id) || null;
 }
 
-function makeId() {
-  return `c_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+export function ensureConversationForMatch(match) {
+  const list = getConversations();
+
+  // évite doublons : une conversation par match.id (si dispo)
+  const existing = list.find((c) => c?.match?.id != null && match?.id != null && c.match.id === match.id);
+  if (existing) return existing;
+
+  const id = `c_${Date.now()}_${match?.id ?? Math.random().toString(16).slice(2)}`;
+
+  const convo = {
+    id,
+    createdAt: new Date().toISOString(),
+    match,
+    messages: [
+      {
+        id: `m_${Date.now()}`,
+        role: 'system',
+        text: `Conversation créée avec ${match?.name ?? 'ce profil'}.`,
+        createdAt: new Date().toISOString(),
+      },
+    ],
+  };
+
+  const updated = [convo, ...list];
+  saveConversations(updated);
+  return convo;
 }
 
-function matchKey(match) {
-  return String(match?.id ?? match?.userId ?? match?.email ?? match?.name ?? 'unknown');
-}
-
-/**
- * Crée 1 conversation par match validé
- * - évite les doublons (même matchKey)
- */
-export function createConversationsFromSelected(selectedMatches) {
-  const existing = getConversations();
-
+export function createConversationsFromSelected(selectedMatches = []) {
   const created = [];
   selectedMatches.forEach((m) => {
-    const key = matchKey(m);
-    const already = existing.find((c) => c.matchKey === key);
-
-    if (!already) {
-      const conv = {
-        id: makeId(),
-        matchKey: key,
-        title: m?.name ? `Conversation avec ${m.name}` : 'Conversation',
-        match: m,
-        createdAt: new Date().toISOString(),
-        messages: [
-          {
-            id: makeId(),
-            from: 'system',
-            text: '✨ Match validé ! Tu peux démarrer la conversation.',
-            at: new Date().toISOString(),
-          },
-        ],
-      };
-      existing.unshift(conv);
-      created.push(conv);
-    } else {
-      created.push(already);
-    }
+    const convo = ensureConversationForMatch(m);
+    created.push(convo);
   });
-
-  saveConversations(existing);
-  return created; // retourne les conversations (nouvelles ou existantes)
+  return created;
 }
 
-export function addMessage(conversationId, { from = 'me', text }) {
+export function addMessage(conversationId, { role = 'me', text }) {
+  if (!text?.trim()) return null;
+
   const list = getConversations();
   const idx = list.findIndex((c) => c.id === conversationId);
   if (idx === -1) return null;
 
   const msg = {
-    id: makeId(),
-    from,
-    text,
-    at: new Date().toISOString(),
+    id: `m_${Date.now()}_${Math.random().toString(16).slice(2)}`,
+    role,
+    text: text.trim(),
+    createdAt: new Date().toISOString(),
   };
 
-  list[idx] = {
-    ...list[idx],
-    messages: [...(list[idx].messages || []), msg],
+  const updated = [...list];
+  updated[idx] = {
+    ...updated[idx],
+    messages: [...(updated[idx].messages || []), msg],
   };
 
-  saveConversations(list);
+  saveConversations(updated);
   return msg;
 }

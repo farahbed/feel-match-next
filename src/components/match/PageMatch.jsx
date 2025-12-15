@@ -59,6 +59,7 @@ export default function PageMatch() {
   const [suggestions, setSuggestions] = useState([]);
   const [currentMatches, setCurrentMatches] = useState([]);
 
+  // ✅ restore "matchs en cours" + état du jour
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
 
@@ -74,6 +75,7 @@ export default function PageMatch() {
     }
   }, []);
 
+  // ✅ appelé quand le tirage est terminé (3 tirages)
   const onFinished = (matches) => {
     const today = new Date().toISOString().split('T')[0];
     setSuggestions(matches);
@@ -81,14 +83,14 @@ export default function PageMatch() {
     localStorage.setItem('lastMatchDate', today);
   };
 
-  // ✅ LA SEULE version de onValidate (on supprime toutes les autres)
+  // ✅ appelé quand l’utilisateur clique “Valider mes matchs”
   const onValidate = (selected) => {
     if (!Array.isArray(selected) || selected.length === 0) return;
 
     // 1) créer les conversations
     createConversationsFromSelected(selected);
 
-    // 2) ajouter aux matchs en cours
+    // 2) ajouter aux matchs en cours (si tu veux garder la section "Matchs en cours")
     const merged = [...currentMatches];
     selected.forEach((p) => {
       const exists = merged.some((x) =>
@@ -100,14 +102,14 @@ export default function PageMatch() {
     setCurrentMatches(merged);
     localStorage.setItem('currentMatches', JSON.stringify(merged));
 
-    // 3) optionnel : vider les suggestions
+    // 3) vider les suggestions (optionnel)
     setSuggestions([]);
 
     // 4) redirection vers la suite
     router.push('/conversations');
   };
 
-  // UI
+  // UI components
   const Card = ({ children, className = '' }) => (
     <div
       className={`rounded-2xl border shadow-sm ${className}`}
@@ -151,11 +153,13 @@ export default function PageMatch() {
       <h3 className="text-lg text-center font-bold" style={{ color: GOLD }}>
         {m.name || 'Profil'}{m.age ? `, ${m.age} ans` : ''}
       </h3>
+
       {m.phrase && (
         <p className="italic text-sm text-center mt-2" style={{ color: MUTED }}>
           « {m.phrase} »
         </p>
       )}
+
       <div className="mt-3 space-y-1 text-sm text-center" style={{ color: TEXT }}>
         {!!m.preferences?.heart?.length && <p>❤ {m.preferences.heart.join(', ')}</p>}
         {!!m.preferences?.search?.length && <p>🔍 {m.preferences.search.join(', ')}</p>}
@@ -166,6 +170,7 @@ export default function PageMatch() {
 
   return (
     <div className="min-h-screen p-6 space-y-12">
+      {/* En-tête */}
       <header className="text-center space-y-2">
         <h1 className="text-3xl font-extrabold">
           <span
@@ -186,6 +191,7 @@ export default function PageMatch() {
         )}
       </header>
 
+      {/* Matchs en cours */}
       <section>
         <Title>Matchs en cours</Title>
 
@@ -202,8 +208,10 @@ export default function PageMatch() {
         )}
       </section>
 
+      {/* Tirage */}
       <section className="pt-4">
         <Title>Tirer mon match du jour</Title>
+
         <Card className="p-6">
           <MatchFinder
             profiles={MOCK_PROFILES}
@@ -211,6 +219,7 @@ export default function PageMatch() {
             onValidate={onValidate}
           />
 
+          {/* Résumé suggestions (optionnel, tu peux garder) */}
           {suggestions.length > 0 && (
             <div className="mt-8">
               <h3 className="text-lg font-semibold mb-3" style={{ color: TEXT }}>
